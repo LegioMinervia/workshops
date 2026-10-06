@@ -1632,11 +1632,13 @@ button:focus-visible { outline: 3px solid var(--accent); outline-offset: 4px; }
 .tax-ring.current { background:rgba(220,230,245,.42); border-width:2px; }
 .tax-ml { left:0; top:0; width:660px; height:490px; }
 .tax-dl { left:65px; top:115px; width:530px; height:360px; }
-.tax-lang { left:160px; top:240px; width:340px; height:215px; }
+.tax-lang { left:130px; top:225px; width:400px; height:235px; }
 .tax-label { position:absolute; top:20px; left:0; right:0; text-align:center; font:600 24px var(--disp); }
 .tax-label small { margin-left:9px; font:14px var(--mono); color:var(--muted); }
-.tax-lang .tax-label { top:21px; font-size:21px; }
-.tax-models { position:absolute; left:205px; top:330px; width:253px; display:flex; gap:14px; align-items:center; justify-content:center; }
+.tax-lang .tax-label { top:16px; font-size:19px; line-height:1.2; }
+.tax-ex { position:absolute; top:56px; left:0; right:0; text-align:center; font:500 17px 'Golos Text',sans-serif; color:var(--accent); }
+.tax-lang .tax-ex { top:66px; font-size:16px; }
+.tax-models { position:absolute; left:205px; top:322px; width:253px; display:flex; gap:14px; align-items:center; justify-content:center; }
 .tax-models span { padding:10px 17px; border:1px solid var(--accent); border-radius:4px; background:var(--accent-soft); font:600 20px var(--mono); text-align:center; }
 .tax-models small { display:block; margin-top:4px; font:11px var(--mono); color:var(--muted); }
 .tax-note { position:absolute; left:690px; right:0; top:62px; }
@@ -2573,9 +2575,9 @@ function SteadyText({text,active,delay=0}) {
   return html`<span className="steady-copy"><span className="steady-space" aria-hidden="true">${text}</span><span className="steady-live"><${DelayGen} active=${active} delay=${delay} text=${text}/></span></span>`;
 }
 const TAX_STEPS = [
-  ['Машинное обучение', 'Часть ИИ: зависимости и параметры модели находят по данным.', 'ML · machine learning', 'Дерево решений может оценивать риск. Регрессия — прогнозировать спрос.'],
-  ['Глубокое обучение', 'Часть ML, в которой используют многослойные нейронные сети.', 'DL · deep learning', 'Такие модели работают с изображениями, речью и текстом.'],
-  ['Языковые модели', 'В этой части схемы находятся нейросетевые модели, обученные на языке.', 'Разные способы работы с текстом', 'Одни генерируют продолжение, другие строят представление текста для анализа.'],
+  ['Машинное обучение', 'Зависимости и параметры модели находят по данным.', 'ML · machine learning', 'Пример — регрессионные модели: прогнозируют спрос по истории продаж.'],
+  ['Глубокое обучение', 'Часть ML, в которой используют многослойные нейронные сети.', 'DL · deep learning', 'Пример — свёрточные нейронные сети: распознают объекты на изображениях.'],
+  ['Модели обработки естественного языка', 'Нейросетевые модели, которые работают с текстом на человеческом языке.', 'NLP · natural language processing', 'Пример — большие языковые модели. Одни генерируют текст, другие анализируют его.'],
   ['GPT и BERT', 'GPT генерирует продолжение текста. BERT помогает классифицировать текст и оценивать его релевантность.', 'GPT — пример генеративной LLM', 'LLM означает «большая языковая модель». На следующем слайде сравним задачи.'],
   ['Место в схеме ≠ задача', 'OCR, распознавание речи и перевод — названия задач и технологий. Их можно реализовать разными моделями.', 'Одна задача — разные реализации', 'Поэтому OCR не рисуем отдельным семейством на одном уровне с GPT и BERT.']
 ];
@@ -2584,8 +2586,8 @@ function SlideTaxonomy({s}) {
   return html`<div>
     <${Head} num="03" title="Где здесь языковые модели" en="ML · DL · GPT · BERT" />
     <div className="scene tax-scene">
-      <div className="tax-map" role="img" aria-label="Машинное обучение включает глубокое обучение. GPT и BERT — нейросетевые языковые модели.">
-        ${[['ml',0,'Машинное обучение','ML'],['dl',1,'Глубокое обучение','DL'],['lang',2,'Языковые модели','']].map(([cls,n,title,abbr])=>html`<div key=${cls} className=${'tax-ring tax-'+cls+(s>=n?' visible':'')+(at===n?' current':'')}><div className="tax-label">${title}${abbr?html`<small>${abbr}</small>`:null}</div></div>`)}
+      <div className="tax-map" role="img" aria-label="Машинное обучение включает глубокое обучение, а глубокое обучение — модели обработки естественного языка. Внутри — GPT и BERT.">
+        ${[['ml',0,'Машинное обучение','ML','регрессионные модели'],['dl',1,'Глубокое обучение','DL','свёрточные нейронные сети'],['lang',2,html`Модели обработки<br/>естественного языка`,'','большие языковые модели']].map(([cls,n,title,abbr,ex])=>html`<div key=${cls} className=${'tax-ring tax-'+cls+(s>=n?' visible':'')+(at===n?' current':'')}><div className="tax-label">${title}${abbr?html`<small>${abbr}</small>`:null}</div><div className="tax-ex">${ex}</div></div>`)}
         <div className=${st(s,3,'tax-models')}><span>BERT<small>анализ текста</small></span><span>GPT<small>генерация</small></span></div>
       </div>
       <div className="tax-note">${TAX_STEPS.map((note,i)=>html`<div key=${i} className=${'tax-note-inner'+(at===i?' active':'')} aria-hidden=${at!==i}>
