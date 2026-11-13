@@ -3291,7 +3291,7 @@ function NeuralField() {
         ctx.strokeStyle = a.hot || b.hot ? 'rgba(255,120,40,' + al + ')' : 'rgba(130,171,226,' + al * .75 + ')';
         ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
       }
-      if (!rm && pulses.length < 14 && Math.random() < 1 - Math.pow(.88, f)) {
+      if (!rm && pulses.length < 3 && Math.random() < 1 - Math.pow(.965, f)) {
         const i = (Math.random() * ps.length) | 0;
         const j = ps.findIndex((q, k) => k !== i && Math.hypot(q.x - ps[i].x, q.y - ps[i].y) < LINK);
         if (j >= 0) pulses.push({ i, j, k: 0, v: .012 + Math.random() * .018 });
