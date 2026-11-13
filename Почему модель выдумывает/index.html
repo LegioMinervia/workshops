@@ -231,10 +231,23 @@ body {
 .nx-dist.bad .pick b { color: var(--bad); font-weight: 600; }
 .nx-talk { position: absolute; left: 0; right: 0; top: 374px; height: 116px; display: flex; align-items: center; gap: 20px; background: var(--inset); border: 1px solid var(--line); border-radius: 8px; padding: 0 22px; box-sizing: border-box; }
 .nx-p { display: flex; align-items: center; gap: 10px; }
-.nx-face { width: 56px; height: 56px; fill: var(--stagebg); stroke: var(--ink); stroke-width: 2; stroke-linecap: round; flex: none; }
-.nx-face.kid { width: 44px; height: 44px; }
+.nx-face { width: 56px; height: 56px; fill: var(--stagebg); stroke: var(--ink); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+.nx-face.kid { width: 48px; height: 48px; }
 .nx-face .eye { fill: var(--ink); stroke: none; }
-.nx-face path { fill: none; }
+.nx-face .glint { fill: #fff; stroke: none; }
+.nx-face .hair { fill: #4A5568; stroke: var(--ink); stroke-width: 1.6; }
+.nx-face.kid .hair { fill: #8A5B2E; }
+.nx-face .tuft { fill: none; stroke: #8A5B2E; stroke-width: 2.4; }
+.nx-face .brow { fill: none; stroke-width: 1.9; }
+.nx-face .cheek { fill: #F2B3AA; stroke: none; opacity: .75; }
+.nx-face .mouth { fill: #9E3B33; stroke-width: 1.8; }
+/* пояснение к пику и равнине — в пустой верхней части графика */
+.nx-note { position: absolute; top: 108px; font-size: .86rem; line-height: 1.35; color: var(--muted); opacity: 0; transform: translateY(6px); transition: opacity .6s ease, transform .6s var(--ez); }
+.nx-note.on { opacity: 1; transform: none; }
+.nx-note.good { left: 30%; right: 1rem; transition-delay: .5s; }
+.nx-note.bad { left: 1rem; right: 1rem; transition-delay: 1.2s; }
+.nx-note.good b { color: var(--good); font-weight: 600; }
+.nx-note.bad b { color: var(--bad); font-weight: 600; }
 .nx-bub { background: var(--stagebg); border: 1px solid var(--line); border-radius: 10px; border-bottom-left-radius: 2px; padding: .5rem .8rem; font-size: 1.08rem; max-width: 280px; line-height: 1.35; }
 .nx-bub.kid { background: var(--bad-soft); border-color: var(--bad); max-width: 330px; }
 .nx-talk .nx-p.kid { opacity: 0; }
@@ -252,15 +265,28 @@ body {
 .km-rose path { fill: rgba(23,32,43,.25); stroke-width: .6; }
 .km-rose path.ns { fill: rgba(23,32,43,.62); }
 .km-rose text { font: 600 8px var(--disp); fill: rgba(23,32,43,.85); stroke: none; }
-.km-island { position: absolute; transform: translate(-50%, 40px); text-align: center; white-space: nowrap; }
-.km-island i { display: block; font: italic 600 1rem var(--disp); color: var(--ink); text-shadow: 0 0 6px #F4EEDD, 0 0 6px #F4EEDD, 0 0 3px #F4EEDD; }
-.km-island span { font: .64rem var(--mono); color: rgba(23,32,43,.7); letter-spacing: .03em; }
-.km-unknown { position: absolute; transform: translate(-50%, -50%); font: italic 600 1.5rem var(--disp); color: rgba(23,32,43,.4); letter-spacing: .12em; text-align: center; transition: opacity .8s ease; white-space: nowrap; }
-.km-unknown span { display: block; font: .72rem var(--mono); letter-spacing: .1em; font-style: normal; margin-top: .2rem; }
-.km.wide .km-unknown { opacity: 0; }
-.km-land { position: absolute; transform: translate(-50%, -50%); font: 600 1.02rem var(--disp); letter-spacing: .34em; text-transform: uppercase; color: rgba(23,32,43,.74); opacity: 0; transition: opacity 1.2s ease; text-shadow: 0 0 8px #F4EEDD, 0 0 8px #F4EEDD, 0 0 3px #F4EEDD; white-space: nowrap; }
-.km.wide .km-land { opacity: 1; }
-.km-pin { position: absolute; width: 30px; height: 30px; margin: -36px 0 0 -15px; opacity: 0; transform: translateY(-46px); transition: opacity .3s ease, transform .6s cubic-bezier(.3,1.5,.5,1); }
+/* слой подписей: масштабируется вместе с картой, каждая точка — обратно */
+.km-map { position: absolute; inset: 0; }
+.km-world { position: absolute; left: 0; top: 0; width: 700px; height: 384px; transform: scale(var(--z)); pointer-events: none; }
+.km-at { position: absolute; width: 0; height: 0; transform: scale(calc(1 / var(--z))); }
+.km-at.p2 { transition: left 1.3s cubic-bezier(.5,0,.25,1), top 1.3s cubic-bezier(.5,0,.25,1); }
+.km-at > b, .km-at > span, .km-at > i { position: absolute; left: 0; top: 0; white-space: nowrap; }
+.km-realm { opacity: var(--zin); }
+.km-realm b { transform: translate(-50%, -50%); font: 600 .92rem var(--disp); letter-spacing: .2em; text-transform: uppercase; color: rgba(23,32,43,.78); text-shadow: 0 0 6px #F4EEDD, 0 0 6px #F4EEDD, 0 0 3px #F4EEDD; }
+.km-realm span { transform: translate(-50%, 14px); font: .66rem var(--mono); letter-spacing: .05em; color: rgba(23,32,43,.62); text-shadow: 0 0 5px #F4EEDD, 0 0 5px #F4EEDD; }
+.km-place { opacity: var(--zin); }
+.km-place i { width: 7px; height: 7px; margin: -3.5px 0 0 -3.5px; border-radius: 50%; background: var(--ink); box-shadow: 0 0 0 2px #F4EEDD; }
+.km-place span { transform: translate(-50%, 8px); font: italic 500 .82rem var(--disp); color: rgba(23,32,43,.82); text-shadow: 0 0 5px #F4EEDD, 0 0 5px #F4EEDD, 0 0 2px #F4EEDD; }
+.km-isle { opacity: calc(1 - var(--zin)); }
+.km-isle i { transform: translate(-50%, -50%); font: italic 600 .9rem var(--disp); color: var(--ink); text-shadow: 0 0 6px #F4EEDD, 0 0 6px #F4EEDD, 0 0 3px #F4EEDD; }
+.km-land { position: absolute; transform: scale(calc(1 / var(--z))) translate(-50%, -50%); transform-origin: 0 0; font: 600 1.02rem var(--disp); letter-spacing: .34em; text-transform: uppercase; color: rgba(23,32,43,.74); text-shadow: 0 0 8px #F4EEDD, 0 0 8px #F4EEDD, 0 0 3px #F4EEDD; white-space: nowrap; width: auto; height: auto; }
+.km-land.g0 { opacity: var(--g0); } .km-land.g1 { opacity: var(--g1); } .km-land.g2 { opacity: var(--g2); } .km-land.g3 { opacity: var(--g3); }
+.km-note { position: absolute; left: 14px; top: 14px; max-width: 420px; font-size: .9rem; line-height: 1.3; background: rgba(248,250,252,.9); border: 1px solid var(--bad); border-left-width: 4px; border-radius: 4px; padding: .38rem .7rem; color: var(--ink); opacity: 0; transform: translateY(-6px); transition: opacity .5s ease 1.1s, transform .5s var(--ez) 1.1s, border-color .6s ease; }
+.km-note.on { opacity: 1; transform: none; }
+.km-note b { color: var(--bad); font-weight: 600; }
+.km-note.good { border-color: var(--good); }
+.km-note.good b { color: var(--good); }
+.km-pin { position: absolute; left: 0; top: 0; width: 30px; height: 30px; margin: -36px 0 0 -15px; opacity: 0; transform: translateY(-46px); transition: opacity .3s ease, transform .6s cubic-bezier(.3,1.5,.5,1); }
 .km-pin.on { opacity: 1; transform: none; }
 .km-pin::before { content: ''; position: absolute; inset: 0; border-radius: 50% 50% 50% 0; transform: rotate(-45deg); box-shadow: 0 4px 10px rgba(23,32,43,.35); border: 2px solid #fff; box-sizing: border-box; transition: background .7s ease; }
 .km-pin.good::before { background: var(--good); }
@@ -284,7 +310,7 @@ body {
 .km-data .chip { background: var(--amber-soft); border: 1px dashed var(--amber); color: var(--amber); white-space: nowrap; font-size: .8rem; padding: .16rem .58rem; opacity: 0; }
 .km-data.on .chip { animation: popIn .45s ease both; }
 
-/* ================= 05: трансформер ================= */
+/* ================= 05: трансформер — две половины ================= */
 .x-zone { position: absolute; left: 0; right: 0; top: 88px; height: 400px; }
 .x-out { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; gap: 22px; transform-origin: 570px 200px; transition: transform 1.2s cubic-bezier(.7,0,.25,1), opacity .55s ease .4s; }
 .x-out.in { transform: scale(7); opacity: 0; pointer-events: none; }
@@ -301,30 +327,103 @@ body {
 .x-io { position: absolute; top: 50%; transform: translateY(-50%) rotate(180deg); writing-mode: vertical-rl; font: .76rem var(--mono); letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
 .x-io.l { left: -31px; }
 .x-io.r { right: -31px; }
-.x-hall { position: absolute; top: 34px; bottom: 56px; background: var(--stagebg); border: 1px solid var(--line); border-top: 3px solid var(--accent); border-radius: 6px; padding: .85rem 1.1rem; box-sizing: border-box; box-shadow: var(--card-shadow); }
-.x-hall.enc { left: 24px; width: 640px; }
-.x-hall.dec { right: 24px; width: 290px; }
-.x-hall h4 { margin: 0; font-family: var(--disp); font-size: 1.9rem; font-weight: 650; }
+.x-hall { position: absolute; top: 30px; bottom: 52px; width: 478px; background: var(--stagebg); border: 1px solid var(--line); border-top: 3px solid var(--accent); border-radius: 6px; padding: .75rem 1.05rem; box-sizing: border-box; box-shadow: var(--card-shadow); transition: opacity .7s ease, filter .7s ease, box-shadow .7s ease; }
+.x-hall.enc { left: 22px; }
+.x-hall.dec { right: 22px; opacity: .28; filter: grayscale(1); }
+.x-in.dec .x-hall.dec { opacity: 1; filter: none; box-shadow: 0 0 0 4px rgba(47,95,168,.14), var(--card-shadow); }
+.x-in.dec:not(.both) .x-hall.enc { opacity: .55; }
+.x-hall h4 { margin: 0; font-family: var(--disp); font-size: 1.75rem; font-weight: 650; }
 .x-hall h4 small { font: 400 .9rem var(--mono); color: var(--accent); margin-left: .6rem; }
-.x-hall p { margin: .4rem 0 0; font-size: 1.02rem; color: var(--muted); line-height: 1.4; }
+.x-hall p { margin: .3rem 0 0; font-size: .98rem; color: var(--muted); line-height: 1.38; }
 .x-hall p b { color: var(--ink); font-weight: 600; }
-.x-pipe { position: absolute; left: 664px; width: 77px; top: 44%; transform: translateY(-50%); text-align: center; color: var(--accent); }
-.x-pipe span { display: block; font: .72rem var(--mono); }
-.x-pipe i { font-style: normal; font-size: 1.8rem; }
-.x-gen { margin-top: 1rem; background: var(--accent-soft); border: 1px solid var(--accent); border-radius: 8px; border-bottom-right-radius: 2px; padding: .5rem .7rem; font-size: 1rem; min-height: 3em; line-height: 1.4; }
-.x-stream { position: absolute; left: 24px; right: 24px; bottom: 16px; height: 24px; overflow: hidden; border-radius: 4px; background: #10151C; }
+.x-read { position: absolute; left: 0; right: 0; bottom: 12px; }
+.x-arow { gap: 7px; }
+.x-arow .atok { display: inline-flex; flex-direction: column; align-items: center; padding: 0; font-size: 1.02rem; }
+.x-col { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.x-wd { background: var(--inset); border: 1px solid var(--line); border-radius: 5px; padding: .08rem .38rem; }
+.x-vec { display: grid; grid-template-rows: repeat(6, 7px); gap: 2px; }
+.x-vec i { display: block; width: 26px; background: var(--accent); border-radius: 1.5px; transform: scaleX(0); transition: transform .45s var(--ez); }
+.x-in.on .x-vec i { transform: none; transition-delay: var(--d); }
+.x-read-cap { margin-top: 8px; text-align: center; font: .7rem var(--mono); color: var(--muted); opacity: 0; transition: opacity .5s ease 2.4s; }
+.x-in.on .x-read-cap { opacity: 1; }
+.x-pipe { position: absolute; left: 500px; width: 56px; top: 46%; transform: translateY(-50%); text-align: center; color: var(--accent); opacity: .25; transition: opacity .6s ease; }
+.x-in.dec .x-pipe { opacity: 1; }
+.x-pipe span { display: block; font: .64rem/1.25 var(--mono); }
+.x-pipe i { font-style: normal; font-size: 1.8rem; display: inline-block; }
+.x-in.dec .x-pipe i { animation: xPush 1.1s ease-in-out infinite; }
+@keyframes xPush { 0%, 100% { transform: translateX(-4px); } 50% { transform: translateX(5px); } }
+.x-write { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 1rem; min-height: 4.4rem; align-content: flex-start; }
+.x-w { font: 600 1.2rem var(--disp); background: var(--accent-soft); border: 1px solid var(--accent); border-radius: 6px; padding: .06rem .4rem; opacity: 0; transform: translateY(8px) scale(.9); transition: opacity .35s ease, transform .4s var(--ez), box-shadow .4s ease; }
+.x-w.on { opacity: 1; transform: none; }
+.x-w.last { box-shadow: 0 0 0 3px rgba(47,95,168,.25); }
+.x-loop { display: block; width: 100%; height: 50px; margin-top: .3rem; fill: none; stroke: var(--accent); stroke-width: 1.6; stroke-dasharray: 5 5; opacity: 0; transition: opacity .6s ease .8s; }
+.x-loop .hd { stroke-dasharray: none; }
+.x-in.dec .x-loop { opacity: .8; }
+.x-loop-cap { text-align: center; font: .7rem var(--mono); color: var(--muted); opacity: 0; transition: opacity .6s ease 1.2s; }
+.x-in.dec .x-loop-cap { opacity: 1; }
+.x-stream { position: absolute; left: 22px; right: 22px; bottom: 14px; height: 24px; overflow: hidden; border-radius: 4px; background: #10151C; }
 .x-stream div { white-space: pre; font: .78rem/24px var(--mono); color: #82ABE2; animation: xFlow 30s linear infinite; width: max-content; }
 @keyframes xFlow { to { transform: translateX(-33.333%); } }
-.x-route { position: absolute; left: 1.1rem; right: 1.1rem; bottom: 14px; height: 136px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
-.x-today { position: absolute; left: 0; top: -2px; font: 500 .68rem var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--accent); opacity: 0; transition: opacity .5s ease; }
-.x-route.on .x-today { opacity: 1; }
-.x-line { position: absolute; left: 16px; right: 120px; top: 40px; height: 2px; background: var(--accent); transform: scaleX(0); transform-origin: left; transition: transform 1.3s ease .2s; }
-.x-route.on .x-line { transform: none; }
-.x-stop { position: relative; padding-top: 24px; opacity: 0; transform: translateY(10px); transition: opacity .5s ease, transform .5s var(--ez); }
-.x-route.on .x-stop { opacity: 1; transform: none; }
-.x-stop b { display: flex; width: 34px; height: 34px; border-radius: 50%; background: var(--accent); color: #fff; align-items: center; justify-content: center; font: 600 .95rem var(--mono); box-shadow: 0 0 0 5px var(--stagebg); position: relative; }
-.x-stop em { display: block; font-style: normal; font-weight: 600; font-size: 1.05rem; margin-top: .45rem; }
-.x-stop span { display: block; font-size: .78rem; color: var(--muted); line-height: 1.3; }
+.x-sum { position: absolute; left: 50%; top: -15px; transform: translate(-50%, 6px); white-space: nowrap; background: var(--stagebg); border: 1.5px solid var(--accent); border-radius: 999px; padding: .2rem 1rem; font-size: .95rem; box-shadow: 0 8px 20px rgba(47,95,168,.16); opacity: 0; transition: opacity .6s ease .3s, transform .6s var(--ez) .3s; }
+.x-sum b { font-weight: 600; color: var(--accent); }
+.x-sum i { font-style: normal; color: var(--muted); margin: 0 .3rem; }
+.x-in.both .x-sum { opacity: 1; transform: translate(-50%, 0); }
+.x-foot { position: absolute; left: 40px; right: 40px; top: 496px; text-align: center; font-size: 1rem; color: var(--muted); }
+.x-foot b { color: var(--ink); font-weight: 600; }
+
+/* ================= 05б: схема трансформера ================= */
+.xa-def { font-size: 1.3rem; min-height: 0; }
+.xa { position: absolute; left: 0; top: 50px; width: 820px; height: 456px; overflow: visible; font-family: "Golos Text", sans-serif; }
+.xa-b { opacity: 0; animation: xaIn .45s ease both; animation-delay: calc(.25s + var(--o) * .11s); transition: opacity .5s ease; }
+@keyframes xaIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+.xa-b.dim { animation: none; opacity: .3; }
+.xa-b rect { fill: var(--stagebg); stroke: var(--line); stroke-width: 1.3; }
+.xa-b text { font-size: 12.5px; fill: var(--ink); }
+.xa-b.k-tok rect { fill: var(--amber-soft); stroke: var(--amber); stroke-dasharray: 4 3; }
+.xa-b.k-emb rect { fill: var(--violet-soft); stroke: var(--violet); }
+.xa-b.k-att rect { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 1.8; }
+.xa-b.k-att text { font-weight: 600; }
+.xa-b.k-ff rect { fill: var(--teal-soft); stroke: var(--teal); }
+.xa-b.k-an rect { fill: var(--inset); stroke: var(--line); }
+.xa-b.k-an text { font-size: 10px; fill: var(--muted); }
+.xa-b.k-lin rect { fill: var(--inset); stroke: var(--muted); }
+.xa-b.k-out rect { fill: var(--good-soft); stroke: var(--good); }
+.xa-b.k-out text { fill: var(--good); font-weight: 600; }
+.xa-b.k-frame rect { fill: rgba(220,230,245,.35); stroke: var(--accent); stroke-width: 1.4; stroke-dasharray: 6 4; }
+.xa-b .n { font: 600 15px var(--mono); fill: var(--accent); }
+.xa-b.k-io text { font: 12px var(--mono); fill: var(--muted); }
+.xa-b.k-io text.next { fill: var(--good); font-weight: 500; }
+.xa-b .side { font: 11.5px var(--mono); fill: var(--muted); }
+.xa-b.k-pos circle { fill: var(--violet-soft); stroke: var(--violet); stroke-width: 1.5; }
+.xa-b.k-pos .plus { stroke: var(--violet); stroke-width: 1.8; }
+.xa-b.k-pos .link { stroke: var(--violet); stroke-width: 1.2; stroke-dasharray: 3 3; fill: none; }
+.xa-b.k-pos .wave { stroke: var(--violet); stroke-width: 1.6; fill: none; }
+.xa-flow { fill: none; stroke: var(--ink); stroke-width: 1.5; opacity: .62; }
+.xa-flow.cross { stroke: var(--accent); stroke-width: 2.2; opacity: .9; }
+.xa marker path { fill: var(--ink); }
+.xa-res { fill: none; stroke: var(--muted); stroke-width: 1; opacity: .55; }
+.xa-tower { font: 600 13px var(--mono); letter-spacing: .2em; fill: var(--accent); }
+.xa-dot { fill: var(--accent); filter: drop-shadow(0 0 4px rgba(47,95,168,.8)); }
+.xa-badge { opacity: 0; transform-box: fill-box; transform-origin: center; transform: scale(.4); transition: opacity .4s ease, transform .5s cubic-bezier(.3,1.6,.5,1); }
+.xa.route .xa-badge { opacity: 1; transform: none; transition-delay: .3s; }
+.xa .xa-b .xa-badge circle { fill: var(--accent); stroke: #fff; stroke-width: 1.5; }
+.xa .xa-b .xa-badge text { fill: #fff; font: 600 11px var(--mono); }
+.xa.route .xa-b.k-ff, .xa.route .xa-b.k-an, .xa.route .xa-b.k-lin, .xa.route .xa-b.k-out, .xa.route .xa-b.k-lines, .xa.route .xa-b.k-cross { opacity: .3; animation: none; }
+.xa-side { position: absolute; left: 850px; right: 0; top: 70px; }
+.xa-read { position: absolute; left: 0; right: 0; top: 0; transition: opacity .5s ease; animation: fadeUp .6s ease 2.6s both; }
+.xa-read.off { animation: none; opacity: 0; }
+.xa-read p { margin: .55rem 0 0; font-size: 1rem; line-height: 1.42; color: var(--muted); }
+.xa-read p b { color: var(--ink); font-weight: 600; }
+.xa-route { position: absolute; left: 0; right: 0; top: 0; }
+.xa-route .eyebrow { color: var(--accent); opacity: 0; transition: opacity .4s ease; }
+.xa-route.on .eyebrow { opacity: 1; }
+.xa-stop { display: flex; gap: .7rem; align-items: flex-start; margin-top: .85rem; opacity: 0; transform: translateX(10px); transition: opacity .5s ease, transform .5s var(--ez); }
+.xa-route.on .xa-stop { opacity: 1; transform: none; }
+.xa-stop b { flex: none; display: flex; width: 30px; height: 30px; border-radius: 50%; background: var(--accent); color: #fff; align-items: center; justify-content: center; font: 600 .9rem var(--mono); }
+.xa-stop em { display: block; font-style: normal; font-weight: 600; font-size: 1.05rem; }
+.xa-stop span { display: block; font-size: .84rem; color: var(--muted); line-height: 1.3; }
+.xa-gpt { position: absolute; left: 0; right: 0; top: 330px; font-size: .86rem; line-height: 1.35; color: var(--muted); border-top: 1px dashed var(--line); padding-top: .6rem; opacity: 0; transition: opacity .6s ease 1.5s; }
+.xa-gpt.on { opacity: 1; }
 
 /* ================= 06: токенизация ================= */
 .tk-cot { position: absolute; left: 0; top: 84px; width: 440px; }
@@ -353,12 +452,22 @@ body {
 .tk-blade { position: absolute; top: -12px; height: 78px; left: 6%; width: 2px; background: var(--accent); box-shadow: 0 0 14px 3px rgba(47,95,168,.6); opacity: 0; }
 .tk-phrase.split .tk-blade { animation: tkBlade 1s ease-in-out both; }
 @keyframes tkBlade { 0% { left: 6%; opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { left: 94%; opacity: 0; } }
-.tk-kind { position: absolute; left: 50%; top: calc(100% + 10px); transform: translateX(-50%); font: normal .7rem var(--mono); color: var(--muted); white-space: nowrap; opacity: 0; transition: opacity .5s ease; }
-.tk-t:nth-child(even) .tk-kind { top: calc(100% + 30px); }
-.tk-kind::before { content: ''; position: absolute; left: 50%; bottom: 100%; width: 1px; height: 8px; background: var(--line); }
-.tk-t:nth-child(even) .tk-kind::before { height: 28px; }
-.tk-phrase.split .tk-kind { opacity: 1; transition-delay: .9s; }
-.tk-phrase.ids .tk-kind { opacity: 0; transition-delay: 0s; }
+/* значки морфем: дуга — корень, крышечка — суффикс, уголок — приставка, рамка — окончание */
+.mo { position: relative; }
+.mo::before { content: ''; position: absolute; left: .03em; right: .03em; bottom: calc(100% - .2em); height: .26em; background: center / 100% 100% no-repeat; transform: scaleX(0); transform-origin: left; transition: transform .45s var(--ez); }
+.mo-r::before { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 28' preserveAspectRatio='none'%3E%3Cpath d='M3 26 Q50 -16 97 26' fill='none' stroke='%2317202B' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E"); }
+.mo-s::before { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 28' preserveAspectRatio='none'%3E%3Cpath d='M4 26 L50 3 L96 26' fill='none' stroke='%2317202B' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E"); }
+.mo-p::before { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 28' preserveAspectRatio='none'%3E%3Cpath d='M3 4 H96 V26' fill='none' stroke='%2317202B' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E"); }
+.mo-e::before { left: -.04em; right: -.04em; top: .36em; bottom: .14em; height: auto; background: none; border: 2px solid #17202B; border-radius: 2px; transform: scale(.6); opacity: 0; transform-origin: center; transition: transform .4s var(--ez), opacity .3s ease; }
+.tk-phrase.split .mo::before { transform: none; opacity: 1; transition-delay: var(--md); }
+.tk-phrase.ids .mo::before { opacity: .55; }
+.tk-legend { position: absolute; left: 0; right: 0; top: 374px; display: flex; justify-content: center; align-items: baseline; gap: 1.1rem; font-size: .95rem; color: var(--muted); opacity: 0; transform: translateY(8px); transition: opacity .6s ease, transform .6s var(--ez); }
+.tk-legend.on { opacity: 1; transform: none; transition-delay: 1.9s; }
+.tk-legend.off { opacity: 0; transition-delay: 0s; }
+.tk-legend-t b { color: var(--ink); font-weight: 600; }
+.tk-legend-i { display: inline-flex; align-items: baseline; gap: .4rem; white-space: nowrap; }
+.tk-legend-i .mo { font: 600 1.25rem var(--disp); color: var(--ink); }
+.tk-legend-i .mo::before { transform: none; opacity: 1; }
 .tk-id { position: absolute; left: 50%; top: calc(100% + 12px); transform: translate(-50%, -8px); font: 500 .95rem var(--mono); color: var(--accent); background: var(--stagebg); border: 1px solid var(--accent); border-radius: 5px; padding: .08rem .38rem; opacity: 0; transition: opacity .35s ease, transform .35s var(--ez); }
 .tk-t.has .tk-id { opacity: 1; transform: translate(-50%, 0); }
 .tk-phrase.dim .tk-txt { opacity: .38; }
@@ -485,49 +594,61 @@ body {
 .at-mx-row.cur span { color: var(--accent); font-weight: 600; }
 .at-mx-row.cur i { box-shadow: 0 0 0 1.5px var(--accent); }
 
-/* библиотека: запрос, ключи, значения */
-.lib { position: absolute; left: 0; right: 0; top: 84px; height: 420px; }
-.lib-q { position: absolute; left: 0; top: 60px; width: 200px; box-sizing: border-box; background: var(--amber-soft); border: 1.5px dashed var(--amber); border-radius: 8px; padding: .8rem .9rem; box-shadow: 0 10px 24px rgba(154,107,15,.14); animation: fadeUp .7s ease .3s both; }
+/* библиотека: Q — запрос (янтарный), K — ключи на корешках (синий), V — содержимое книг (зелёный) */
+.lib { position: absolute; left: 0; right: 0; top: 80px; height: 430px; }
+.lib-h { position: absolute; top: 0; display: flex; align-items: center; gap: .6rem; opacity: .22; transition: opacity .6s ease; }
+.lib-h.on { opacity: 1; }
+.lib-h b { display: flex; width: 44px; height: 44px; border-radius: 50%; align-items: center; justify-content: center; font: 650 1.7rem var(--disp); color: #fff; }
+.lib-h span { font: 600 1.15rem var(--disp); line-height: 1.05; }
+.lib-h small { display: block; font: 400 .74rem var(--mono); color: var(--muted); margin-top: .15rem; }
+.lib-h.q { left: 0; } .lib-h.q b { background: var(--amber); }
+.lib-h.k { left: 250px; } .lib-h.k b { background: var(--accent); }
+.lib-h.v { left: 736px; } .lib-h.v b { background: var(--good); }
+.lib-q { position: absolute; left: 0; top: 92px; width: 204px; box-sizing: border-box; background: var(--amber-soft); border: 1.5px dashed var(--amber); border-radius: 8px; padding: .8rem .9rem; box-shadow: 0 10px 24px rgba(154,107,15,.14); animation: fadeUp .7s ease .3s both; }
 .lib-q .eyebrow { color: var(--amber); }
-.lib-q b { display: block; font: 600 1.22rem/1.25 var(--disp); margin: .45rem 0 .5rem; }
+.lib-q b { display: block; font: 600 1.3rem/1.22 var(--disp); margin: .45rem 0 .5rem; }
 .lib-q small { font-size: .8rem; color: var(--muted); line-height: 1.3; display: block; }
-.lib-shelf { position: absolute; left: 236px; top: 0; width: 640px; height: 330px; animation: fadeUp .7s ease .5s both; }
-.lib-board { position: absolute; left: -10px; right: -10px; top: 262px; height: 12px; border-radius: 3px; background: linear-gradient(#B89766, #94753F); box-shadow: 0 8px 16px rgba(23,32,43,.16); }
-.lib-book { position: absolute; bottom: 68px; width: 78px; margin-left: -39px; box-sizing: border-box; border-radius: 4px 4px 2px 2px; background: linear-gradient(90deg, rgba(23,32,43,.14), transparent 16%, transparent 84%, rgba(23,32,43,.12)), var(--hue); border: 1px solid rgba(23,32,43,.3); display: flex; flex-direction: column; align-items: center; justify-content: flex-end; padding-bottom: 8px; transition: transform .7s var(--ez), box-shadow .7s ease; }
-.lib-book b { writing-mode: vertical-rl; transform: rotate(180deg); font: 600 1.12rem var(--disp); color: #17202B; flex: 1; display: flex; align-items: center; }
-.lib-book em { font: normal 500 .7rem var(--mono); width: 22px; height: 22px; border-radius: 50%; background: var(--stagebg); border: 1.5px solid var(--accent); color: var(--accent); display: flex; align-items: center; justify-content: center; }
-.lib.k .lib-book { transform: translateY(calc(var(--w) * -34px)); box-shadow: 0 0 0 calc(var(--w) * 4px) rgba(47,95,168,.5), 0 0 calc(6px + var(--w) * 52px) rgba(47,95,168, calc(.12 + var(--w) * .9)); }
-.lib-pct { position: absolute; left: 50%; bottom: calc(100% + 8px); transform: translateX(-50%) translateY(6px); font: 500 .9rem var(--mono); color: var(--accent); white-space: nowrap; opacity: 0; transition: opacity .5s ease, transform .5s var(--ez); }
-.lib.k .lib-pct { opacity: calc(.45 + var(--w) * 1.2); transform: translateX(-50%); }
-.lib-low { position: absolute; left: 0; right: 0; top: 322px; height: 72px; display: flex; align-items: flex-end; gap: 3px; opacity: .75; }
-.lib-low i { flex: 1; border: 1px solid rgba(23,32,43,.12); border-radius: 2px 2px 0 0; box-sizing: border-box; }
-.lib-board.low { top: 394px; opacity: .75; }
-.lib-thin { position: absolute; bottom: 68px; width: 14px; margin-left: -7px; border-radius: 2px 2px 1px 1px; background: #DCE2EA; border: 1px solid rgba(23,32,43,.14); box-sizing: border-box; }
-.lib-scan { position: absolute; top: 36px; left: 0; width: 16px; height: 16px; margin-left: -8px; border-radius: 50%; background: #C98A14; box-shadow: 0 0 0 6px rgba(201,138,20,.22), 0 0 22px 6px rgba(201,138,20,.5); opacity: 0; }
-.lib.k .lib-scan { animation: libScan 2.1s cubic-bezier(.4,0,.5,1) .1s both; }
-@keyframes libScan { 0% { left: -40px; opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { left: 640px; opacity: 0; } }
-.lib-cap { position: absolute; left: 0; right: 0; top: 288px; text-align: center; font-size: .9rem; color: var(--muted); opacity: 0; transition: opacity .6s ease 1.6s; }
+.lib-beams { position: absolute; left: 0; top: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; transition: opacity .6s ease; }
+.lib.v .lib-beams { opacity: .25; }
+.lib-beams path { fill: none; stroke: var(--accent); stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 1; animation: arcIn .9s ease forwards; }
+.lib-shelf { position: absolute; inset: 0; pointer-events: none; animation: fadeUp .7s ease .5s both; }
+.lib-board { position: absolute; left: 240px; width: 470px; top: 330px; height: 12px; border-radius: 3px; background: linear-gradient(#B89766, #94753F); box-shadow: 0 8px 16px rgba(23,32,43,.16); }
+.lib-book { position: absolute; bottom: 100px; width: 56px; margin-left: -28px; box-sizing: border-box; border-radius: 4px 4px 2px 2px; background: linear-gradient(90deg, rgba(23,32,43,.16), transparent 18%, transparent 82%, rgba(23,32,43,.14)), var(--hue); border: 1px solid rgba(23,32,43,.3); display: flex; flex-direction: column; align-items: center; padding: 8px 0; transition: transform .7s var(--ez), box-shadow .7s ease, opacity .6s ease; }
+.lib-book b { writing-mode: vertical-rl; transform: rotate(180deg); font: 600 1.06rem var(--disp); color: #17202B; flex: 1; display: flex; align-items: center; margin-top: 6px; }
+.lib-key { font: normal 600 .74rem var(--mono); width: 32px; height: 20px; border-radius: 4px; background: var(--stagebg); border: 1.5px solid var(--accent); color: var(--accent); display: flex; align-items: center; justify-content: center; transition: background .5s ease, color .5s ease, box-shadow .5s ease; }
+.lib.k .lib-key { background: var(--accent); color: #fff; box-shadow: 0 0 0 calc(var(--w) * 5px) rgba(47,95,168,.3); transition-delay: var(--kd); }
+.lib.k .lib-book { transform: translateY(calc(var(--w) * -30px)); box-shadow: 0 0 calc(4px + var(--w) * 46px) rgba(47,95,168, calc(.1 + var(--w) * .9)); transition-delay: var(--kd); }
+.lib.v .lib-book.out { transform: translateY(-48px); opacity: .32; box-shadow: none; transition-delay: 0s; }
+.lib-pct { position: absolute; left: 50%; bottom: calc(100% + 7px); transform: translateX(-50%) translateY(6px); font: 600 .92rem var(--mono); color: var(--accent); white-space: nowrap; opacity: 0; transition: opacity .5s ease, transform .5s var(--ez); }
+.lib.k .lib-pct { opacity: calc(.45 + var(--w) * 1.2); transform: translateX(-50%); transition-delay: var(--kd); }
+.lib-thin { position: absolute; bottom: 100px; width: 10px; border-radius: 2px 2px 1px 1px; background: #DCE2EA; border: 1px solid rgba(23,32,43,.14); box-sizing: border-box; }
+.lib-cap { position: absolute; left: 240px; width: 470px; top: 356px; text-align: center; font-size: .9rem; color: var(--muted); opacity: 0; transition: opacity .6s ease 1.4s; }
+.lib-cap b { color: var(--accent); font-weight: 600; }
 .lib.k .lib-cap { opacity: 1; }
-.lib-note { position: absolute; right: 0; top: 30px; width: 244px; box-sizing: border-box; background: var(--stagebg); border: 1px solid var(--line); border-top: 3px solid var(--good); border-radius: 5px; padding: .8rem .9rem; box-shadow: var(--card-shadow); opacity: 0; transform: translateY(12px); transition: opacity .6s ease, transform .7s var(--ez); }
+.lib-vcol { position: absolute; left: 736px; right: 0; top: 0; bottom: 0; }
+.lib-open { position: absolute; left: 0; right: 0; top: calc(64px + var(--i) * 76px); height: 66px; display: grid; grid-template-columns: 112px 1fr 54px; align-items: stretch; border-radius: 5px; background: #fff; box-shadow: 0 8px 20px rgba(23,32,43,.12); border: 1px solid var(--line); overflow: hidden; opacity: 0; }
+.lib.v .lib-open { animation: libOpen .9s cubic-bezier(.3,.8,.3,1) both; animation-delay: calc(.2s + var(--i) * .28s); }
+@keyframes libOpen {
+  0% { opacity: 0; transform: translate(var(--fx), var(--fy)) scale(.32, .9) rotate(-6deg); }
+  35% { opacity: 1; }
+  100% { opacity: 1; transform: none; }
+}
+.lib-open .pg { padding: .45rem .65rem; display: flex; flex-direction: column; justify-content: center; }
+.lib-open .pg.l { background: linear-gradient(90deg, var(--hue), var(--hue) 10px, #FBF8F1 10px, #FBF8F1 calc(100% - 8px), #EDE6D6); }
+.lib-open .pg.l em { font: normal .62rem var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); padding-left: 8px; }
+.lib-open .pg.l b { font: 600 1rem var(--disp); padding-left: 8px; }
+.lib-open .pg.r { background: linear-gradient(90deg, #EDE6D6, #FBF8F1 10px); font-size: .92rem; line-height: 1.25; color: var(--good); font-weight: 500; border-left: 1px solid #E2D9C5; }
+.lib-open code { display: flex; align-items: center; justify-content: center; font: 600 .9rem var(--mono); color: var(--good); background: var(--good-soft); }
+.lib-note { position: absolute; left: 0; right: 0; top: 304px; box-sizing: border-box; background: var(--stagebg); border: 1px solid var(--line); border-top: 3px solid var(--good); border-radius: 5px; padding: .65rem .85rem; box-shadow: var(--card-shadow); opacity: 0; transform: translateY(12px); transition: opacity .6s ease 1s, transform .7s var(--ez) 1s; }
 .lib.v .lib-note { opacity: 1; transform: none; }
 .lib-note .eyebrow { color: var(--good); }
-.lib-note b { display: block; font: 600 1.08rem/1.25 var(--disp); margin: .4rem 0 .7rem; }
-.lib-mix { display: grid; grid-template-columns: 86px 1fr 40px; align-items: center; gap: 6px; height: 26px; font-size: .82rem; }
-.lib-mix i { height: 10px; border-radius: 5px; background: var(--inset); overflow: hidden; }
-.lib-mix u { display: block; height: 100%; width: 0; background: var(--good); border-radius: 5px; transition: width .9s var(--ez); text-decoration: none; }
-.lib.v .lib-mix u { width: var(--p); }
-.lib-mix code { font: .76rem var(--mono); color: var(--muted); text-align: right; }
-.lib-note small { display: block; margin-top: .6rem; font-size: .78rem; color: var(--muted); line-height: 1.3; }
-.lib-sheet { position: absolute; left: var(--x); top: 20px; width: 15px; height: 19px; margin-left: -8px; background: #fff; border: 1px solid var(--good); border-radius: 2px; box-shadow: 0 3px 8px rgba(46,125,79,.25); opacity: 0; pointer-events: none; }
-.lib-sheet::after { content: ''; position: absolute; left: 3px; right: 3px; top: 4px; height: 1px; background: var(--good); box-shadow: 0 4px 0 var(--good), 0 8px 0 var(--good); opacity: .6; }
-.lib.v .lib-sheet { animation: sheetFly 1.5s cubic-bezier(.45,0,.3,1) var(--d) both; }
-@keyframes sheetFly {
-  0% { opacity: 0; transform: translate(0, 0) rotate(0); }
-  12% { opacity: 1; }
-  50% { transform: translate(calc(var(--dx) * .5), -46px) rotate(16deg); }
-  88% { opacity: 1; }
-  100% { opacity: 0; transform: translate(var(--dx), var(--dy)) rotate(34deg) scale(.6); }
-}
+.lib-stack { display: flex; height: 12px; border-radius: 6px; overflow: hidden; background: var(--inset); margin: .5rem 0 .35rem; }
+.lib-stack i { display: block; height: 100%; width: 0; transition: width .7s var(--ez); }
+.lib.v .lib-stack i { width: var(--p); }
+.lib-legend { display: flex; flex-wrap: wrap; gap: .25rem .7rem; font: .68rem var(--mono); color: var(--muted); }
+.lib-legend i { display: inline-block; width: 8px; height: 8px; border-radius: 2px; margin-right: .3rem; }
+.lib-res { display: block; margin-top: .4rem; font: 600 1.12rem var(--disp); color: var(--good); }
+.lib-res u { text-decoration: none; background: var(--good-soft); border-radius: 3px; padding: 0 .12em; }
 
 /* ================= 10: много голов ================= */
 .mh-space { position: absolute; left: 0; right: 0; top: 78px; height: 430px; perspective: 1500px; perspective-origin: 50% 40%; }
@@ -566,6 +687,13 @@ body {
 .mh-space.score .mh-score-cap { opacity: 1; transition-delay: 1s; }
 .mh-row .atok::after { content: ''; position: absolute; left: 12%; right: 12%; top: calc(100% + 12px); height: calc(var(--sc) * 74px); border-radius: 0 0 4px 4px; background: linear-gradient(var(--accent), #82ABE2); transform: scaleY(0); transform-origin: top; transition: transform .9s var(--ez); }
 .mh-space.score .mh-layer.h0 .atok::after { transform: none; transition-delay: .3s; }
+/* подчёркнуты слова, на которые смотрит голова: толщина — вес слова в этой голове */
+.mh-row .atok.u::before { content: ''; position: absolute; left: .12em; right: .12em; top: calc(100% - 1px); height: calc(3.5px + var(--uw) * 4px); border-radius: 3px; opacity: 0; transform: scaleX(0); transform-origin: left; transition: transform .5s var(--ez), opacity .3s ease; }
+.mh-layer.h0 .atok.u::before { background: var(--accent); }
+.mh-layer.h1 .atok.u::before { background: var(--violet); }
+.mh-layer.h2 .atok.u::before { background: var(--teal); }
+.mh-space.ex .mh-row .atok.u::before { opacity: calc(.7 + var(--uw) * .3); transform: none; transition-delay: var(--ud); }
+
 
 /* ================= 11: сила промпта ================= */
 .pp { position: absolute; left: 0; right: 0; top: 78px; height: 440px; }
@@ -579,9 +707,11 @@ body {
 .pp-sheet.q { animation: none; }
 @keyframes ppIn { from { opacity: 0; transform: translateX(-46px) rotate(-2deg); } to { opacity: 1; transform: none; } }
 .pp-empty { font: .76rem var(--mono); color: var(--muted); text-align: center; padding: .55rem 0 .15rem; border-top: 1px dashed var(--line); }
-.pp-fact { border-radius: 4px; padding: .02em .15em; transition: background .5s ease .7s, box-shadow .5s ease .7s; }
-.pp-fact.hot { background: linear-gradient(90deg, #FFD98A, #FFB347); animation: ppHot 1.5s ease-in-out 1.2s infinite alternate both; }
-@keyframes ppHot { from { box-shadow: 0 0 0 2px rgba(232,150,30,.5), 0 0 16px 3px rgba(255,160,40,.4); } to { box-shadow: 0 0 0 2px rgba(232,150,30,.75), 0 0 34px 10px rgba(255,140,20,.7); } }
+.pp-fact { border-radius: 4px; padding: .02em .15em; transition: background .5s ease .7s, box-shadow .5s ease .7s, color .5s ease .7s; }
+/* внимание «загорелось» на факте — зелёное выделение маркером */
+.pp-fact.hot { color: #1F5C39; font-weight: 600; background: linear-gradient(transparent 8%, #BFE3CB 8%, #BFE3CB 92%, transparent 92%) no-repeat left / 0% 100%; box-shadow: none; animation: ppMark .9s cubic-bezier(.5,0,.2,1) 1s forwards, ppGlow 1.8s ease-in-out 2s infinite alternate; }
+@keyframes ppMark { to { background-size: 100% 100%; } }
+@keyframes ppGlow { from { box-shadow: 0 0 0 2px rgba(46,125,79,.35); } to { box-shadow: 0 0 0 2px rgba(46,125,79,.7), 0 0 18px 4px rgba(46,125,79,.28); } }
 .pp-srcb { position: absolute; right: 8px; top: 6px; font: 500 .64rem var(--mono); color: var(--good); background: var(--good-soft); border-radius: 999px; padding: .1rem .5rem; animation: fadeUp .5s ease 3.2s both; }
 .pp-llm { position: absolute; left: 508px; top: 104px; width: 130px; height: 96px; box-sizing: border-box; border: 2.5px solid var(--accent); border-radius: 8px; background: var(--accent-soft); display: flex; flex-direction: column; align-items: center; justify-content: center; font-weight: 600; font-size: 1.7rem; box-shadow: 0 14px 34px rgba(47,95,168,.18); z-index: 2; }
 .pp-llm small { font: 400 .78rem var(--mono); color: var(--muted); }
@@ -620,8 +750,7 @@ body {
 .pp-beam.mem.strong { stroke: var(--bad); opacity: .8; }
 .pp-beam.jit { animation: arcIn .6s ease forwards, ppJit .26s steps(2) .6s infinite; }
 @keyframes ppJit { 0% { opacity: .2; } 100% { opacity: .85; } }
-.pp.good .pp-beam.strong { stroke: #E0921A; opacity: .95; filter: drop-shadow(0 0 7px rgba(232,150,30,.75)); }
-.pp-embers { position: absolute; left: 0; top: 0; width: 1140px; height: 440px; pointer-events: none; z-index: 4; }
+.pp.good .pp-beam.strong { stroke: var(--good); opacity: .95; filter: drop-shadow(0 0 6px rgba(46,125,79,.5)); }
 .pp-rich { position: absolute; left: 0; top: 338px; width: 430px; display: flex; gap: 8px; justify-content: center; opacity: 0; transform: translateY(8px); transition: opacity .6s ease .8s, transform .6s var(--ez) .8s; }
 .pp-rich.on { opacity: 1; transform: none; }
 .pp-rich span { font: 500 .78rem var(--mono); color: var(--amber); background: var(--amber-soft); border: 1px dashed var(--amber); border-radius: 999px; padding: .2rem .75rem; }
@@ -1648,14 +1777,24 @@ function Dist({ items, on, pick, kind, hot, scale = .86 }) {
   </div>`;
 }
 
+/* Взрослый и ребёнок: у каждого две отдельные брови, у ребёнка — вихор, щёки и открытая улыбка */
 function Face({ kid }) {
-  return html`<svg className=${'nx-face' + (kid ? ' kid' : '')} viewBox="0 0 48 48" aria-hidden="true">
-    <circle cx="24" cy="24" r="21" />
-    ${kid
-      ? html`<path d="M15 13 Q24 3 33 13" /><path d="M24 6 L26 1" />`
-      : html`<path d="M10 17 Q24 2 38 17" />`}
-    <circle className="eye" cx="17" cy="23" r="1.9" /><circle className="eye" cx="31" cy="23" r="1.9" />
-    ${kid ? html`<path d="M17 31 Q24 38 31 31" />` : html`<path d="M18 33 H30" />`}
+  if (kid) return html`<svg className="nx-face kid" viewBox="0 0 48 48" aria-hidden="true">
+    <circle cx="24" cy="26" r="19.5" />
+    <path className="hair" d="M5.4 22 C6.5 11.5 14 6.5 24 6.5 C34 6.5 41.5 11.5 42.6 22 C38.5 16.6 32 14.2 24 14.2 C16 14.2 9.5 16.6 5.4 22 Z" />
+    <path className="tuft" d="M22.5 7 C21 3 24.5 .8 27.5 2.4" />
+    <path className="brow" d="M13.2 19.6 Q16.2 17.2 19.2 18.9" /><path className="brow" d="M28.8 18.9 Q31.8 17.2 34.8 19.6" />
+    <circle className="eye" cx="16.5" cy="24.5" r="2.4" /><circle className="eye" cx="31.5" cy="24.5" r="2.4" />
+    <circle className="glint" cx="17.3" cy="23.6" r=".8" /><circle className="glint" cx="32.3" cy="23.6" r=".8" />
+    <circle className="cheek" cx="12.4" cy="30.4" r="2.7" /><circle className="cheek" cx="35.6" cy="30.4" r="2.7" />
+    <path className="mouth" d="M18.6 31.2 Q24 38.6 29.4 31.2 Z" />
+  </svg>`;
+  return html`<svg className="nx-face" viewBox="0 0 48 48" aria-hidden="true">
+    <circle cx="24" cy="25" r="20.5" />
+    <path className="hair" d="M4.6 22.5 C5 10.5 13.5 4.4 24 4.4 C34.5 4.4 43 10.5 43.4 22.5 C40.2 16 37 13.6 31 12.6 C27 15 18 15.6 11.5 14 C8.4 16 6.2 19 4.6 22.5 Z" />
+    <path className="brow" d="M13 19.4 L20 18.6" /><path className="brow" d="M28 18.6 L35 19.4" />
+    <circle className="eye" cx="16.8" cy="24" r="1.9" /><circle className="eye" cx="31.2" cy="24" r="1.9" />
+    <path className="brow" d="M18.5 33.4 H29.5" />
   </svg>`;
 }
 
@@ -1694,12 +1833,14 @@ function SlideNext({ s }) {
           <div className="nx-phrase">Столица Франции — ${a >= 2 ? html`<span className="nx-word good">Париж</span>` : html`<span className="caret"></span>`}
             ${a >= 2 ? html`<span className="nx-tag good">острый пик · ответ известен</span>` : null}</div>
           <${Dist} items=${NX_A} on=${a >= 1} pick=${a >= 2 ? 0 : -1} kind="good" />
+          <div className=${cls('nx-note good', a >= 2 && 'on')}>Ответ встречался тысячи раз — <b>почти вся вероятность у одного слова</b>. Это острый пик.</div>
         </div>
         <div className=${st(s, 1, 'card top nx-card')}>
           <span className="eyebrow">об этом модель не читала</span>
           <div className="nx-phrase">По договору № 42-К комиссия — ${pick >= 0 ? html`<span className="nx-word bad">2${' '}%</span>` : html`<span className="caret"></span>`}
             ${pick >= 0 ? html`<span className="nx-tag bad">ровная равнина · выбрано наугад</span>` : null}</div>
           <${Dist} items=${NX_B} on=${s >= 1} hot=${hot} pick=${pick} kind="bad" scale=${2.1} />
+          <div className=${cls('nx-note bad', s >= 1 && 'on')}>Ответа в данных не было — <b>у всех вариантов почти равные шансы</b>. Это ровная равнина: слово выбрано наугад, но звучит так же уверенно.</div>
         </div>
       </div>
       <div className=${st(s, 2, 'nx-talk')}>
@@ -1714,126 +1855,179 @@ function SlideNext({ s }) {
   </div>`;
 }
 
-/* ============ 04 · данные: карта знаний под туманом ============ */
+/* ============ 04 · данные: сначала весь мир — один остров, потом карта отъезжает ============ */
 
 const MAP = { W: 700, H: 384 };
-/* Земли: положение на карте (доли ширины и высоты), размер, подпись */
+const MAP_ASP = MAP.W / MAP.H;
+/* Остров саги из трёх долей и земли, которые появятся с новыми данными.
+   u, v — доли кадра при полном отъезде, r — размер */
+const MAP_ISLE = [{ u: .30, v: .585, r: .105 }, { u: .345, v: .665, r: .08 }, { u: .255, v: .665, r: .07 }];
 const MAP_LANDS = [
-  { u: .30, v: .62, r: .135, name: null },
-  { u: .70, v: .60, r: .30, name: 'Наука', lu: .745, lv: .50 },
-  { u: .52, v: .25, r: .23, name: 'История' },
-  { u: .86, v: .25, r: .19, name: 'Право' },
-  { u: .16, v: .22, r: .21, name: 'Техника' },
+  { u: .70, v: .62, r: .2, name: 'Наука' },
+  { u: .50, v: .24, r: .15, name: 'История' },
+  { u: .88, v: .24, r: .14, name: 'Право' },
+  { u: .14, v: .30, r: .14, name: 'Техника' },
 ];
+const MAP_ALL = [...MAP_ISLE, ...MAP_LANDS];
+/* Сколько раз карта увеличена вначале: остров занимает весь кадр */
+const MAP_Z0 = 2.55;
+/* Неподвижная точка отъезда: при увеличении MAP_Z0 в центре кадра стоит остров */
+const MAP_FIX = (() => {
+  const ix = .30 * MAP_ASP, iy = 1 - .585, cx = MAP_ASP / 2, cy = .5;
+  return [(ix * MAP_Z0 - cx) / (MAP_Z0 - 1), (iy * MAP_Z0 - cy) / (MAP_Z0 - 1)];
+})();
+/* Ход отъезда: t — секунды с начала шага «добавили данные» */
+const mapZoom = t => Math.exp(Math.log(MAP_Z0) * (1 - ease(clamp(t / 2.1, 0, 1))));
+const mapGrow = (t, i) => easeOut(clamp((t - .8 - i * .42) / 1.3, 0, 1));
 
 const MAP_FS = `
+#extension GL_OES_standard_derivatives : enable
 #ifdef GL_FRAGMENT_PRECISION_HIGH
 precision highp float;
 #else
 precision mediump float;
 #endif
-uniform vec2 uR; uniform float uT; uniform vec3 uC[5]; uniform float uLit[5];
+uniform vec2 uR; uniform float uT; uniform float uZ; uniform vec2 uF;
+uniform vec3 uC[7]; uniform float uG[7];
 float hash(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
 float noise(vec2 p){ vec2 i = floor(p), f = fract(p); f = f*f*(3.-2.*f);
   return mix(mix(hash(i), hash(i+vec2(1.,0.)), f.x), mix(hash(i+vec2(0.,1.)), hash(i+vec2(1.,1.)), f.x), f.y); }
-float fbm(vec2 p){ float a = .5, s = 0.; for(int i=0;i<5;i++){ s += a*noise(p); p = p*2.03 + vec2(1.7, 9.2); a *= .5; } return s; }
+float fbm(vec2 p){ float a = .5, s = 0.; for(int i=0;i<7;i++){ s += a*noise(p); p = p*2.03 + vec2(1.7, 9.2); a *= .5; } return s; }
+/* тонкая линия на целых значениях v, толщина — в пикселях экрана */
+float iso(float v, float px){ float d = abs(fract(v + .5) - .5) / max(fwidth(v), 1e-5); return 1. - smoothstep(px * .5, px * .5 + 1., d); }
 void main(){
   vec2 uv = gl_FragCoord.xy / uR;
-  vec2 p = vec2(uv.x * uR.x / uR.y, uv.y);
+  float asp = uR.x / uR.y;
+  vec2 ps = vec2(uv.x * asp, uv.y);
+  /* камера: увеличение uZ вокруг неподвижной точки uF */
+  vec2 p = uF + (ps - uF) / uZ;
   float n = fbm(p*3.4 + vec2(4.1, 2.3));
-  float h = .40 * n;
-  for(int i=0;i<5;i++){ float d = distance(p, uC[i].xy) / uC[i].z; h += .64 * exp(-d*d); }
-  float land = smoothstep(.498, .506, h);
-  vec3 sea = vec3(.890, .918, .945);
-  vec3 soil = mix(vec3(.957, .929, .851), vec3(.905, .862, .748), smoothstep(.52, .92, h));
-  vec3 col = mix(sea, soil, land);
-  /* линии рельефа и волны у берега — как на гравированной карте */
-  float relief = smoothstep(.86, 1., sin(h * 74.)) * land;
-  col = mix(col, vec3(.60, .49, .30), relief * .22);
+  /* искажение пространства — берега с заливами и мысами, а не ровные кляксы */
+  vec2 q = p + (vec2(fbm(p*2.6 + 1.3), fbm(p*2.6 + 7.9)) - .5) * .30;
+  float h = .40 * n + .12 * (fbm(p*11. + 3.7) - .5);
+  for(int i=0;i<7;i++){ float d = distance(q, uC[i].xy) / uC[i].z; h += .64 * uG[i] * exp(-d*d); }
+  float fw = max(fwidth(h), 1e-5);
+  float land = smoothstep(.5 - fw, .5 + fw, h);
   float dsea = .5 - h;
-  float waves = smoothstep(.72, 1., sin(dsea * 190.)) * smoothstep(.11, 0., dsea) * (1. - land);
-  col = mix(col, vec3(.44, .56, .72), waves * .42);
-  float coast = 1. - smoothstep(0., .0075, abs(h - .502));
-  col = mix(col, vec3(.16, .21, .29), coast * .9);
-  /* сетка координат */
-  vec2 g = abs(fract(p * 5.) - .5);
-  float grid = 1. - smoothstep(0., .007, min(g.x, g.y));
-  col = mix(col, vec3(.30, .38, .50), grid * .09);
-  /* бумага */
-  col *= .975 + .05 * noise(p * 90.);
-  /* туман: рассеивается там, где есть данные */
-  float lit = 0.;
-  for(int i=0;i<5;i++){
-    float e = (fbm(p*6. + float(i)*3.1 + uT*.04) - .5) * .16;
-    float rr = uC[i].z * (1.02 + .62 * uLit[i]);
-    float d = distance(p, uC[i].xy);
-    lit = max(lit, uLit[i] * (1. - smoothstep(rr*.72 + e, rr*1.05 + e, d)));
-  }
-  float fn = fbm(p*2.6 + vec2(uT*.025, -uT*.018));
-  float fn2 = fbm(p*7. - vec2(uT*.05, uT*.03));
-  vec3 fog = mix(vec3(.760, .792, .840), vec3(.950, .958, .972), smoothstep(.22, .78, fn)) - .035 * fn2;
-  col = mix(fog, col, clamp(lit, 0., 1.));
+  /* море: у берега темнее, вдали — чистая бумага, «белое пятно» */
+  vec3 sea = mix(vec3(.858, .896, .936), vec3(.936, .944, .952), smoothstep(.0, .22, dsea));
+  vec3 soil = mix(vec3(.962, .936, .862), vec3(.900, .852, .730), smoothstep(.54, .95, h));
+  soil = mix(soil, vec3(.975, .958, .900), smoothstep(.57, .5, h) * .7);
+  vec3 col = mix(sea, soil, land);
+  /* горизонтали на суше и линии воды вдоль берега — как на гравированной карте */
+  float relief = iso(h * 13., 1.) * land * smoothstep(.58, .64, h);
+  col = mix(col, vec3(.58, .47, .28), relief * .26);
+  float wl = dsea * 34.;
+  float waves = iso(wl, 1.) * step(.5, wl) * smoothstep(.15, .02, dsea) * (1. - land);
+  col = mix(col, vec3(.36, .50, .68), waves * .5);
+  float coast = 1. - smoothstep(.45, 1.35, abs(h - .5) / fw);
+  col = mix(col, vec3(.16, .21, .29), coast * .85);
+  /* сетка координат и румбы от розы ветров */
+  vec2 gp = p * 5.;
+  float grid = max(iso(gp.x, .8), iso(gp.y, .8));
+  col = mix(col, vec3(.30, .38, .50), grid * .1);
+  vec2 ro = p - vec2(1.02, .1);
+  float ang = atan(ro.y, ro.x) / .3926991;
+  float rd = abs(fract(ang + .5) - .5) * .3926991 * length(ro) / max(fwidth(p.x), 1e-5);
+  col = mix(col, vec3(.45, .32, .18), (1. - smoothstep(.3, 1.2, rd)) * .1 * (1. - land * .6));
+  /* бумага — в координатах экрана, не увеличивается вместе с картой */
+  col *= .972 + .056 * noise(ps * 92.);
   gl_FragColor = vec4(col, 1.);
 }`;
 
-function KnowledgeMap({ s }) {
+/* Карта на WebGL и слой подписей поверх неё. Подписи живут в координатах карты:
+   слой масштабируется вместе с ней, а каждая подпись — обратно, чтобы текст не рос */
+function KnowledgeMap({ s, children }) {
   const ref = useRef(null);
+  const world = useRef(null);
   const sRef = useRef(s);
   const since = useRef(0);
   const [fail, setFail] = useState(false);
   if (sRef.current !== s) { if (s >= 3 && sRef.current < 3) since.current = performance.now(); sRef.current = s; }
   useEffect(() => {
     const cv = ref.current;
-    if (!cv) return;
-    let gl;
-    try { gl = cv.getContext('webgl', { antialias: false }); if (!gl) throw new Error('no gl'); }
-    catch (e) { setFail(true); return; }
-    const { W, H } = MAP;
-    cv.width = W * DPR; cv.height = H * DPR;
-    const mk = (type, src) => { const sh = gl.createShader(type); gl.shaderSource(sh, src); gl.compileShader(sh); return sh; };
-    const pr = gl.createProgram();
-    gl.attachShader(pr, mk(gl.VERTEX_SHADER, 'attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}'));
-    gl.attachShader(pr, mk(gl.FRAGMENT_SHADER, MAP_FS));
-    gl.linkProgram(pr);
-    if (!gl.getProgramParameter(pr, gl.LINK_STATUS)) { setFail(true); return; }
-    gl.useProgram(pr);
-    gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
-    const loc = gl.getAttribLocation(pr, 'p');
-    gl.enableVertexAttribArray(loc);
-    gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
-    gl.viewport(0, 0, cv.width, cv.height);
-    gl.uniform2f(gl.getUniformLocation(pr, 'uR'), cv.width, cv.height);
-    const asp = W / H;
-    gl.uniform3fv(gl.getUniformLocation(pr, 'uC'), new Float32Array(MAP_LANDS.flatMap(l => [l.u * asp, 1 - l.v, l.r])));
-    const uT = gl.getUniformLocation(pr, 'uT'), uLit = gl.getUniformLocation(pr, 'uLit');
-    const lit = new Float32Array(5);
-    const target = now => MAP_LANDS.map((l, i) => (i === 0 ? 1 : sRef.current >= 3 && now - since.current > (i - 1) * 420 ? 1 : 0));
     if (sRef.current >= 3) since.current = -1e6;
-    target(performance.now()).forEach((v, i) => { lit[i] = v; });
-    let raf = 0, last = performance.now();
-    const t0 = last;
+    const apply = (z, g) => {
+      const el = world.current;
+      if (!el) return;
+      el.style.setProperty('--z', z);
+      el.style.setProperty('--zin', clamp((z - 1.7) / (MAP_Z0 - 1.7), 0, 1));
+      g.forEach((v, i) => el.style.setProperty('--g' + i, v));
+    };
+    const state = now => {
+      if (sRef.current < 3) return { z: MAP_Z0, g: [0, 0, 0, 0] };
+      const t = rm ? 99 : (now - since.current) / 1000;
+      return { z: mapZoom(t), g: MAP_LANDS.map((_, i) => mapGrow(t, i)) };
+    };
+    let gl = null;
+    try { gl = cv && cv.getContext('webgl', { antialias: false }); } catch (e) { gl = null; }
+    const ext = gl && gl.getExtension('OES_standard_derivatives');
+    let draw = null;
+    if (gl && ext) {
+      const { W, H } = MAP;
+      cv.width = W * DPR; cv.height = H * DPR;
+      const mk = (type, src) => { const sh = gl.createShader(type); gl.shaderSource(sh, src); gl.compileShader(sh); return sh; };
+      const pr = gl.createProgram();
+      gl.attachShader(pr, mk(gl.VERTEX_SHADER, 'attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}'));
+      gl.attachShader(pr, mk(gl.FRAGMENT_SHADER, MAP_FS));
+      gl.linkProgram(pr);
+      if (gl.getProgramParameter(pr, gl.LINK_STATUS)) {
+        gl.useProgram(pr);
+        gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
+        const loc = gl.getAttribLocation(pr, 'p');
+        gl.enableVertexAttribArray(loc);
+        gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+        gl.viewport(0, 0, cv.width, cv.height);
+        gl.uniform2f(gl.getUniformLocation(pr, 'uR'), cv.width, cv.height);
+        gl.uniform2f(gl.getUniformLocation(pr, 'uF'), MAP_FIX[0], MAP_FIX[1]);
+        gl.uniform3fv(gl.getUniformLocation(pr, 'uC'), new Float32Array(MAP_ALL.flatMap(l => [l.u * MAP_ASP, 1 - l.v, l.r])));
+        const uT = gl.getUniformLocation(pr, 'uT'), uZ = gl.getUniformLocation(pr, 'uZ'), uG = gl.getUniformLocation(pr, 'uG');
+        const grow = new Float32Array(7);
+        draw = (now, z, g) => {
+          for (let i = 0; i < 7; i++) grow[i] = i < MAP_ISLE.length ? 1 : g[i - MAP_ISLE.length];
+          gl.uniform1f(uT, now / 1000);
+          gl.uniform1f(uZ, z);
+          gl.uniform1fv(uG, grow);
+          gl.drawArrays(gl.TRIANGLES, 0, 3);
+        };
+      }
+    }
+    if (!draw) setFail(true);
+    let raf = 0;
     const frame = now => {
-      const dt = Math.min(.05, (now - last) / 1000);
-      last = now;
-      target(now).forEach((v, i) => { lit[i] = rm ? v : lit[i] + clamp(v - lit[i], -dt / .6, dt / 1.5); });
-      gl.uniform1f(uT, (now - t0) / 1000);
-      gl.uniform1fv(uLit, lit);
-      gl.drawArrays(gl.TRIANGLES, 0, 3);
+      const { z, g } = state(now);
+      apply(z, g);
+      if (draw) draw(now, z, g);
       raf = requestAnimationFrame(frame);
     };
     raf = requestAnimationFrame(frame);
     return () => cancelAnimationFrame(raf);
   }, []);
-  if (fail) return html`<div className="km-cv km-fallback"></div>`;
-  return html`<canvas ref=${ref} className="km-cv"></canvas>`;
+  return html`<div className="km-map">
+    ${fail ? html`<div className="km-cv km-fallback"></div>` : html`<canvas ref=${ref} className="km-cv"></canvas>`}
+    <div ref=${world} className="km-world" style=${{ '--z': MAP_Z0, '--zin': 1, transformOrigin: (MAP_FIX[0] / MAP_ASP) * 100 + '% ' + (1 - MAP_FIX[1]) * 100 + '%' }}>${children}</div>
+  </div>`;
 }
 
+/* Точка на карте: позиция в координатах карты, размер — постоянный на экране */
+const At = ({ u, v, c, children }) => html`<div className=${'km-at ' + (c || '')} style=${{ left: u * 100 + '%', top: v * 100 + '%' }}>${children}</div>`;
+
 const MAP_DATA = ['энциклопедии', 'учебники', 'научные статьи', 'своды законов', 'новости'];
+/* Места на острове саги — видны, пока карта увеличена */
+const MAP_PLACES = [
+  { u: .296, v: .53, name: 'Винтерфелл' },
+  { u: .352, v: .66, name: 'Орлиное Гнездо' },
+  { u: .25, v: .683, name: 'Королевская Гавань' },
+];
+const PIN1 = { u: .296, v: .53 };
+const PIN2_ISLE = { u: .352, v: .66 };
+const PIN2_SCI = { u: .68, v: .555 };
 
 function SlideMap({ s }) {
-  const fixed = usePhase('fix', [1900], s >= 3);
+  const fixed = usePhase('fix', [2900], s >= 3);
   const known = s >= 3 && fixed >= 1;
+  const p2 = known ? PIN2_SCI : PIN2_ISLE;
   return html`<div>
     <${Head} num="03" title="Чему научили — то и знает" en="обучающие данные" />
     <div className="scene">
@@ -1843,7 +2037,14 @@ function SlideMap({ s }) {
         [' — место, где она начинает выдумывать.'],
       ]} /></div>
       <div className=${cls('km', s >= 3 && 'wide')}>
-        <${KnowledgeMap} s=${s} />
+        <${KnowledgeMap} s=${s}>
+          <${At} u=${.30} v=${.597} c="km-realm"><b>Песнь Льда и Пламени</b><span>одна сага — весь мир модели</span><//>
+          ${MAP_PLACES.map((p, i) => html`<${At} key=${i} u=${p.u} v=${p.v} c="km-place"><i></i><span>${p.name}</span><//>`)}
+          <${At} u=${.30} v=${.76} c="km-isle"><i>«Песнь Льда и Пламени»</i><//>
+          ${MAP_LANDS.map((l, i) => html`<${At} key=${'l' + i} u=${l.u} v=${l.v + (i === 0 ? .03 : 0)} c=${'km-land g' + i}>${l.name}<//>`)}
+          <${At} u=${PIN1.u} v=${PIN1.v} c="km-pinat"><div className=${cls('km-pin good', s >= 1 && 'on')}><b>1</b></div><//>
+          <${At} u=${p2.u} v=${p2.v} c="km-pinat p2"><div className=${cls('km-pin', known ? 'good' : 'bad', s >= 2 && 'on')}><b>2</b></div><//>
+        <//>
         <div className="km-frame"></div>
         <div className="km-title">карта знаний модели</div>
         <svg className="km-rose" viewBox="-30 -30 60 60" aria-hidden="true">
@@ -1851,11 +2052,11 @@ function SlideMap({ s }) {
           <path d="M0 -27 L5 0 L0 27 L-5 0 Z" className="ns" /><path d="M-27 0 L0 -5 L27 0 L0 5 Z" />
           <text y="-17" textAnchor="middle">С</text>
         </svg>
-        <div className="km-island" style=${{ left: '30%', top: '62%' }}><i>«Песнь Льда и Пламени»</i><span>одна сага — весь мир модели</span></div>
-        <div className="km-unknown" style=${{ left: '70%', top: '30%' }}>terra incognita<span>здесь данных нет</span></div>
-        ${MAP_LANDS.slice(1).map((l, i) => html`<div key=${i} className="km-land" style=${{ left: (l.lu || l.u) * 100 + '%', top: (l.lv || l.v) * 100 + '%', transitionDelay: (s >= 3 ? .9 + i * .42 : 0) + 's' }}>${l.name}</div>`)}
-        <div className=${cls('km-pin good', s >= 1 && 'on')} style=${{ left: '30%', top: '55%' }}><b>1</b></div>
-        <div className=${cls('km-pin', known ? 'good' : 'bad', s >= 2 && 'on')} style=${{ left: '66%', top: '72%' }}><b>2</b></div>
+        <div className=${cls('km-note', s >= 2 && 'on', known && 'good')}>
+          ${known
+            ? html`<span key="g">Карта отъехала — <b>теперь у вопроса есть своё место</b></span>`
+            : html`<span key="b">Кроме острова, <b>вопрос поставить некуда</b></span>`}
+        </div>
       </div>
       <div className="km-side">
         <div className=${st(s, 1, 'card top km-q')}>
@@ -1883,14 +2084,28 @@ function SlideMap({ s }) {
   </div>`;
 }
 
-/* ============ 05 · трансформер: въезжаем внутрь синего блока ============ */
+/* ============ 05 · трансформер: сначала энкодер, потом декодер, потом вместе ============ */
 
-const X_STREAM = '0.42  −0.17  0.93  0.08  −0.61  0.35  −0.04  0.77  0.19  −0.88  0.51  0.26  −0.33  0.64  0.11  −0.72  0.48  0.90  −0.25  0.07  0.83  −0.46  0.30  0.58  ';
-const X_ROUTE = [['токены', 'текст режут на кусочки'], ['векторы', 'кусочки получают координаты'], ['позиции', 'модель узнаёт порядок слов'], ['внимание', 'слова взвешивают друг друга']];
+const X_WORDS = ['Вернут', 'ли', 'комиссию', 'за', 'отменённый', 'перевод?'];
+/* кто на кого смотрит, пока энкодер читает фразу (условно) */
+const X_LINKS = [[5, 2, .8], [5, 4, .6], [2, 0, .55], [4, 2, .35], [0, 1, .3]];
+/* числовое описание смысла каждого слова — столбик из шести чисел */
+const X_VEC = X_WORDS.map((_, i) => Array.from({ length: 6 }, (__, k) => h2(i * 7 + 3, k * 11 + 1)));
+const X_ANS = ['Да,', 'по', 'п. 4.2', 'договора', 'комиссия', 'возвращается.'];
+
+function XVec({ v, d }) {
+  return html`<span className="x-vec" style=${{ '--d': d + 's' }}>${v.map((x, k) => html`<i key=${k} style=${{ opacity: .22 + x * .78 }}></i>`)}</span>`;
+}
+
+/* слово, а под ним — его столбик чисел */
+const X_TOKS = X_WORDS.map((w, i) => html`<span className="x-col"><span className="x-wd">${w}</span><${XVec} v=${X_VEC[i]} d=${1.5 + i * .12} /></span>`);
 
 function SlideTransformer({ s }) {
+  /* декодер пишет ответ по слову */
+  const n = usePhase('dec', X_ANS.map((_, i) => 700 + i * 620), s >= 2);
+  const written = s >= 3 ? X_ANS.length : s >= 2 ? n : 0;
   return html`<div>
-    <${Head} num="04" title="Трансформер" en="transformer · что внутри модели" />
+    <${Head} num="04" title="Трансформер" en="transformer · две половины" />
     <div className="scene">
       <div className=${st(s, 0, 'def')}><${GenR} segs=${[
         ['Чтобы лучше понимать запрос и не «придумывать» лишнего, современные LLM используют архитектуру '],
@@ -1906,42 +2121,174 @@ function SlideTransformer({ s }) {
           <div className="x-bub bot">Да, по п. 4.2 договора…</div>
           <div className="x-cap">в первой части это был закрытый блок — заглянем внутрь</div>
         </div>
-        <div className=${cls('x-in', s >= 1 && 'on')}>
-          <div className="x-tag">внутри LLM · трансформер</div>
-          <span className="x-io l">текст</span>
-          <span className="x-io r">текст</span>
+        <div className=${cls('x-in', s >= 1 && 'on', s >= 2 && 'dec', s >= 3 && 'both')}>
+          <div className="x-tag">внутри · трансформер</div>
+          <span className="x-io l">запрос</span>
+          <span className="x-io r">ответ</span>
           <div className="x-hall enc">
-            <h4>Энкодер <small>текст → числа</small></h4>
-            <p>Читает запрос и документы, ищет в них <b>скрытые смыслы</b>.</p>
-            <div className=${cls('x-route', s >= 2 && 'on')}>
-              <span className="x-today">разбираем сегодня</span>
-              <i className="x-line"></i>
-              ${X_ROUTE.map(([n, d], i) => html`<div key=${i} className="x-stop" style=${{ transitionDelay: (s >= 2 ? .25 + i * .32 : 0) + 's' }}>
-                <b>${i + 1}</b><em>${n}</em><span>${d}</span>
-              </div>`)}
+            <h4>Энкодер <small>читает</small></h4>
+            <p>Читает запрос и документы <b>целиком</b>. Для каждого слова считает <b>числовое описание смысла</b> — с учётом соседей.</p>
+            <div className="x-read">
+              <${ArcRow} toks=${X_TOKS} links=${s >= 1 ? X_LINKS : []} lift=${54} rowCls="x-arow" redraw=${s >= 1} />
+              <div className="x-read-cap">каждое слово — столбик чисел: его смысл в этой фразе</div>
             </div>
           </div>
-          <div className="x-pipe"><span>числа</span><i>→</i></div>
+          <div className="x-pipe"><span>смысл<br/>в числах</span><i>→</i></div>
           <div className="x-hall dec">
-            <h4>Декодер <small>числа → текст</small></h4>
-            <p>Собирает из цифровых подсказок <b>связный ответ</b> — слово за словом.</p>
-            <div className="x-gen"><${DelayGen} active=${s >= 1} delay=${1700} text="Да, по п. 4.2 договора комиссия…" /></div>
+            <h4>Декодер <small>пишет</small></h4>
+            <p>Пишет ответ <b>слово за словом</b>: смотрит на подсказки энкодера и на то, что <b>уже написал</b>.</p>
+            <div className="x-write">
+              ${X_ANS.map((w, i) => html`<span key=${i} className=${cls('x-w', i < written && 'on', i === written - 1 && s < 3 && 'last')}>${w}</span>`)}
+              ${s >= 2 && written < X_ANS.length ? html`<span className="caret"></span>` : null}
+            </div>
+            <svg className="x-loop" viewBox="0 0 400 60" aria-hidden="true">
+              <path d="M 372 6 C 392 30, 360 52, 300 52 L 40 52 C 14 52, 8 34, 18 16" />
+              <path className="hd" d="M 12 24 L 18 14 L 26 22" />
+            </svg>
+            <div className="x-loop-cap">написанное слово — снова на вход: из него выбирается следующее</div>
           </div>
           <div className="x-stream"><div>${X_STREAM}${X_STREAM}${X_STREAM}</div></div>
+          <div className="x-sum"><b>энкодер</b> понимает <i>+</i> <b>декодер</b> отвечает <i>=</i> <b>трансформер</b></div>
         </div>
       </div>
+      <div className=${st(s, 3, 'x-foot')}>В чат-моделях вроде GPT обе роли выполняет <b>один декодер</b>: читает запрос и сразу продолжает его ответом.</div>
     </div>
-    <div className=${st(s, 3, 'take')}>
-      Как текст превращается в числа — и как <span className="hl">механизм внимания</span> находит в нём главное.
+  </div>`;
+}
+
+const X_STREAM = '0.42  −0.17  0.93  0.08  −0.61  0.35  −0.04  0.77  0.19  −0.88  0.51  0.26  −0.33  0.64  0.11  −0.72  0.48  0.90  −0.25  0.07  0.83  −0.46  0.30  0.58  ';
+
+/* ============ 05б · схема трансформера ============ */
+
+/* Блоки схемы: x — левый край, y — верх, h — высота, k — вид, r — номер шага маршрута */
+const XA_W = 236;
+const XA_E = 160, XA_D = 540;
+const XA_BOX = [
+  /* энкодер */
+  { x: XA_E, y: 400, h: 26, k: 'tok', t: 'Токенизация', r: 1, o: 0 },
+  { x: XA_E, y: 354, h: 26, k: 'emb', t: 'Эмбеддинги', r: 2, o: 1 },
+  { x: XA_E, y: 278, h: 30, k: 'att', t: 'Многоголовое внимание', r: 4, o: 3 },
+  { x: XA_E, y: 252, h: 16, k: 'an', t: 'Сложение и нормализация', o: 4 },
+  { x: XA_E, y: 212, h: 30, k: 'ff', t: 'Полносвязная сеть', o: 5 },
+  { x: XA_E, y: 186, h: 16, k: 'an', t: 'Сложение и нормализация', o: 6 },
+  /* декодер */
+  { x: XA_D, y: 400, h: 26, k: 'tok', t: 'Токенизация', r: 1, o: 8 },
+  { x: XA_D, y: 354, h: 26, k: 'emb', t: 'Эмбеддинги', r: 2, o: 9 },
+  { x: XA_D, y: 278, h: 30, k: 'att', t: 'Маскированное внимание', r: 4, o: 11 },
+  { x: XA_D, y: 252, h: 16, k: 'an', t: 'Сложение и нормализация', o: 12 },
+  { x: XA_D, y: 212, h: 30, k: 'att', t: 'Внимание к энкодеру', r: 4, o: 13 },
+  { x: XA_D, y: 186, h: 16, k: 'an', t: 'Сложение и нормализация', o: 14 },
+  { x: XA_D, y: 146, h: 30, k: 'ff', t: 'Полносвязная сеть', o: 15 },
+  { x: XA_D, y: 120, h: 16, k: 'an', t: 'Сложение и нормализация', o: 16 },
+  { x: XA_D + 28, y: 72, h: 24, k: 'lin', t: 'Линейный слой', o: 18, w: XA_W - 56 },
+  { x: XA_D + 28, y: 34, h: 26, k: 'out', t: 'Вероятности слов', o: 19, w: XA_W - 56 },
+];
+const XA_ROUTE = [['Токенизация', 'текст режут на кусочки и дают им номера'], ['Эмбеддинги', 'номер превращается в координаты смысла'], ['Позиционное кодирование', 'к словам добавляется их место в тексте'], ['Внимание', 'слова взвешивают, насколько важны друг для друга']];
+
+function XaBox({ b, s }) {
+  const w = b.w || XA_W, cx = b.x + w / 2, cy = b.y + b.h / 2;
+  return html`<g className=${cls('xa-b', 'k-' + b.k, s >= 1 && !b.r && 'dim')} style=${{ '--o': b.o }}>
+    <rect x=${b.x} y=${b.y} width=${w} height=${b.h} rx=${b.k === 'an' ? 3 : 5} />
+    <text x=${cx} y=${cy + (b.k === 'an' ? 3.6 : 4.6)} textAnchor="middle">${b.t}</text>
+    ${b.r ? html`<g className="xa-badge"><circle cx=${b.x + 15} cy=${cy} r="9.5" /><text x=${b.x + 15} y=${cy + 4} textAnchor="middle">${b.r}</text></g>` : null}
+  </g>`;
+}
+
+/* ⊕ — к эмбеддингам прибавляют позиции; подпись слева, номер шага справа */
+function XaPos({ x, o }) {
+  const cx = x + XA_W / 2, cy = 330, lx = x - 14;
+  return html`<g className="xa-b k-pos" style=${{ '--o': o }}>
+    <circle cx=${cx} cy=${cy} r="10" /><path className="plus" d=${`M ${cx - 6} ${cy} H ${cx + 6} M ${cx} ${cy - 6} V ${cy + 6}`} />
+    <path className="link" d=${`M ${lx} ${cy} H ${cx - 10}`} />
+    <path className="wave" d=${`M ${lx - 58} ${cy} q 7 -10 14 0 t 14 0 t 14 0 t 14 0`} />
+    <text x=${lx - 64} y=${cy + 4} textAnchor="end" className="side">позиции</text>
+    <g className="xa-badge"><circle cx=${cx + 24} cy=${cy} r="10" /><text x=${cx + 24} y=${cy + 4} textAnchor="middle">3</text></g>
+  </g>`;
+}
+
+function SlideArch({ s }) {
+  const ec = XA_E + XA_W / 2, dc = XA_D + XA_W / 2;
+  /* линии потока снизу вверх: между соседними блоками башни */
+  const up = (cx, pairs) => pairs.map(([y1, y2], i) => html`<path key=${cx + '-' + i} className="xa-flow" d=${`M ${cx} ${y1} V ${y2 + 5}`} markerEnd="url(#xaArr)" />`);
+  /* обходные линии «сложение»: вход подслоя сразу идёт к блоку нормализации */
+  const res = (x, yIn, yAn) => html`<path className="xa-res" d=${`M ${x + XA_W / 2} ${yIn} H ${x - 22} V ${yAn} H ${x - 4}`} markerEnd="url(#xaArrS)" />`;
+  const route = s >= 1;
+  return html`<div>
+    <${Head} num="05" title="Как устроен трансформер" en="схема · снизу вверх" />
+    <div className="scene">
+      <div className="def xa-def"><${GenR} segs=${[
+        ['Схема трансформера: слева '],
+        ['энкодер', 'hl'],
+        [', справа '],
+        ['декодер', 'hl'],
+        [', текст поднимается снизу вверх.'],
+      ]} /></div>
+      <svg className=${cls('xa', route && 'route')} viewBox="0 0 820 456" aria-hidden="true">
+        <defs>
+          <marker id="xaArr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" /></marker>
+          <marker id="xaArrS" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" /></marker>
+        </defs>
+        <text className="xa-tower" x="24" y="232" transform="rotate(-90 24 232)" textAnchor="middle">ЭНКОДЕР · читает</text>
+        <text className="xa-tower" x="816" y="262" transform="rotate(-90 816 262)" textAnchor="middle">ДЕКОДЕР · пишет</text>
+        <g className="xa-b k-io" style=${{ '--o': 0 }}><text x=${ec} y="448" textAnchor="middle">запрос и документы</text></g>
+        <g className="xa-b k-io" style=${{ '--o': 8 }}><text x=${dc} y="448" textAnchor="middle">уже написанный ответ</text></g>
+        <g className="xa-b k-io" style=${{ '--o': 20 }}><text x=${dc} y="20" textAnchor="middle" className="next">следующее слово</text></g>
+        <g className="xa-b k-frame" style=${{ '--o': 2 }}><rect x=${XA_E - 30} y="176" width=${XA_W + 44} height="142" rx="10" /><text x=${XA_E + XA_W + 20} y="194" className="n">×N</text></g>
+        <g className="xa-b k-frame" style=${{ '--o': 10 }}><rect x=${XA_D - 30} y="110" width=${XA_W + 44} height="208" rx="10" /><text x=${XA_D + XA_W + 20} y="128" className="n">×N</text></g>
+        <g className="xa-b k-lines" style=${{ '--o': 2 }}>
+          ${up(ec, [[440, 426], [400, 380], [354, 340], [320, 308], [278, 268], [252, 242], [212, 202]])}
+          ${res(XA_E, 312, 260)}${res(XA_E, 248, 194)}
+        </g>
+        <g className="xa-b k-lines" style=${{ '--o': 10 }}>
+          ${up(dc, [[440, 426], [400, 380], [354, 340], [320, 308], [278, 268], [252, 242], [212, 202], [186, 176], [146, 136], [120, 96], [72, 60], [34, 26]])}
+          ${res(XA_D, 312, 260)}${res(XA_D, 248, 194)}${res(XA_D, 182, 128)}
+        </g>
+        <g className="xa-b k-cross" style=${{ '--o': 17 }}>
+          <path className="xa-flow cross" d=${`M ${ec} 186 V 150 H ${XA_D - 46} V 227 H ${XA_D - 5}`} markerEnd="url(#xaArr)" />
+          <text x=${(ec + XA_D) / 2 + 20} y="142" textAnchor="middle" className="side">смысл запроса — в декодер</text>
+        </g>
+        ${XA_BOX.map((b, i) => html`<${XaBox} key=${i} b=${b} s=${s} />`)}
+        <${XaPos} x=${XA_E} o=${1.5} />
+        <${XaPos} x=${XA_D} o=${9.5} />
+        <circle className="xa-dot" r="4.5"><animateMotion dur="3.4s" begin="2.6s" repeatCount="indefinite" path=${`M ${ec} 440 V 186 V 150 H ${XA_D - 46} V 227 H ${dc} V 30`} /></circle>
+      </svg>
+      <div className="xa-side">
+        <div className=${cls('xa-read', route && 'off')}>
+          <span className="eyebrow">как читать схему</span>
+          <p>Каждый прямоугольник — отдельное вычисление. Блок в рамке повторяется <b>N раз</b>: в больших моделях — десятки раз подряд.</p>
+          <p>На выходе — <b>вероятности слов</b>: из них и выбирается следующее.</p>
+        </div>
+        <div className=${cls('xa-route', route && 'on')}>
+          <span className="eyebrow">разбираем сегодня</span>
+          ${XA_ROUTE.map(([n, d], i) => html`<div key=${i} className="xa-stop" style=${{ transitionDelay: (route ? .2 + i * .25 : 0) + 's' }}><b>${i + 1}</b><div><em>${n}</em><span>${d}</span></div></div>`)}
+        </div>
+        <div className=${cls('xa-gpt', route && 'on')}>У чат-моделей вроде GPT — только правая башня, без «внимания к энкодеру».</div>
+      </div>
+    </div>
+    <div className=${st(s, 2, 'take')}>
+      Внимание есть в обеих башнях — это <span className="hl">ключ к тому, почему контекст так меняет ответ</span>.
     </div>
   </div>`;
 }
 
 /* ============ 06 · шаг 1: токенизация ============ */
 
-/* Сквозная фраза по кусочкам: текст, номер в словаре (условный), что это за кусочек */
-const TOKS = [['Верн', 8214, 'корень'], ['ут', 317, 'окончание'], [' ли', 1140, 'слово'], [' комисс', 18342, 'корень'], ['ию', 902, 'окончание'],
-  [' за', 286, 'слово'], [' отмен', 6071, 'корень'], ['ённый', 12955, 'суффикс'], [' перевод', 4410, 'слово'], ['?', 30, 'знак']];
+/* Сквозная фраза по кусочкам: текст, номер в словаре (условный) и части слова внутри кусочка.
+   Значки морфем как в школе: p — приставка, r — корень, s — суффикс, e — окончание */
+const TOKS = [
+  ['Верн', 8214, [['Вер', 'r'], ['н', 's']]], ['ут', 317, [['ут', 'e']]], [' ли', 1140, null],
+  [' комисси', 18342, [['комисси', 'r']]], ['ю', 902, [['ю', 'e']]], [' за', 286, null],
+  [' отмен', 6071, [['от', 'p'], ['мен', 'r']]], ['ённый', 12955, [['ённ', 's'], ['ый', 'e']]],
+  [' перевод', 4410, [['пере', 'p'], ['вод', 'r']]], ['?', 30, null],
+];
+const MORPH = [['p', 'приставка'], ['r', 'корень'], ['s', 'суффикс'], ['e', 'окончание']];
+
+/* Текст кусочка с разметкой морфем; пробел в начале кусочка остаётся без значка */
+function TokText({ t, m, k }) {
+  if (!m) return t;
+  const lead = t.match(/^\s*/)[0];
+  return html`${lead}${m.map(([part, kind], j) => html`<span key=${j} className=${'mo mo-' + kind} style=${{ '--md': (1.2 + (k + j) * .09) + 's' }}>${part}</span>`)}`;
+}
 
 /* Номер «прокручивается» по словарю и останавливается */
 function Roll({ to }) {
@@ -1960,7 +2307,7 @@ function SlideTokens({ s }) {
   const shown = s >= 4 ? TOKS.length : s >= 3 ? ph : 0;
   const cur = shown >= TOKS.length ? 3 : Math.max(1, shown) - 1;
   return html`<div>
-    <${Head} num="05" title="Шаг 1. Токенизация" rail=${1} />
+    <${Head} num="06" title="Шаг 1. Токенизация" rail=${1} />
     <div className="scene">
       <div className=${st(s, 0, 'def')}><${GenR} segs=${[
         ['Машина не видит букв — '],
@@ -1988,12 +2335,15 @@ function SlideTokens({ s }) {
         <div className="tk-look-n">${shown >= TOKS.length ? '10 кусочков → 10 номеров' : 'у каждого кусочка — свой номер'}</div>
       </div>
       <div className=${cls('tk-phrase', s >= 1 && 'on', s >= 2 && 'split', s >= 3 && 'ids', s >= 4 && 'dim')}>
-        ${TOKS.map(([t, id, kind], i) => html`<span key=${i} className=${cls('tk-t', 'tok' + (i % 4), i < shown && 'has')}>
-          <span className="tk-txt">${t}</span>
-          <em className="tk-kind">${kind}</em>
+        ${TOKS.map(([t, id, m], i) => html`<span key=${i} className=${cls('tk-t', 'tok' + (i % 4), i < shown && 'has')}>
+          <span className="tk-txt"><${TokText} t=${t} m=${m} k=${i} /></span>
           <code className="tk-id">${id}</code>
         </span>`)}
         <i className="tk-blade"></i>
+      </div>
+      <div className=${cls('tk-legend', s >= 2 && 'on', s >= 4 && 'off')}>
+        <span className="tk-legend-t">каждый цветной кусочек — <b>токен</b>. Часто токен совпадает с частью слова:</span>
+        ${MORPH.map(([k, n]) => html`<span key=${k} className="tk-legend-i"><span className=${'mo mo-' + k}>${k === 'e' ? 'ю' : k === 'p' ? 'от' : k === 's' ? 'ённ' : 'вод'}</span>${n}</span>`)}
       </div>
       <div className=${st(s, 4, 'tk-array')}>
         <span className="tk-array-cap">вот что получает модель</span>
@@ -2171,7 +2521,7 @@ function SlideEmbed({ s }) {
   const dim = s >= 5 ? 3 : Math.max(0, dimPh - 1);
   const mx = useMemo(() => { const r = rng(42); return TOKS.map(() => Array.from({ length: 18 }, () => r())); }, []);
   return html`<div>
-    <${Head} num="06" title="Шаг 2. Эмбеддинги" rail=${2} />
+    <${Head} num="07" title="Шаг 2. Эмбеддинги" rail=${2} />
     <div className="scene">
       <div className=${st(s, 0, 'def')}><${GenR} segs=${[
         ['Каждый токен переводят в '],
@@ -2304,7 +2654,7 @@ function OdHalf({ words, s, side }) {
 
 function SlideOrder({ s }) {
   return html`<div>
-    <${Head} num="07" title="Шаг 3. Порядок слов" rail=${3} />
+    <${Head} num="08" title="Шаг 3. Порядок слов" rail=${3} />
     <div className="scene">
       <div className=${st(s, 0, 'def')}><${GenR} segs=${[
         ['Слова одни и те же, координаты одни и те же — а '],
@@ -2366,7 +2716,7 @@ function AttnSentence({ s }) {
     return q >= 0 && AT_W[q][i] >= .25 ? 'lit' : q >= 0 && AT_W[q][i] < .08 ? 'dim' : '';
   };
   return html`<div>
-    <${Head} num="08" title="Шаг 4. Внимание" rail=${4} />
+    <${Head} num="09" title="Шаг 4. Внимание" rail=${4} />
     <div className="scene">
       <div className=${st(s, 0, 'def')}><${GenR} segs=${[
         ['Механизм внимания решает, '],
@@ -2413,14 +2763,26 @@ function AttnSentence({ s }) {
   </div>`;
 }
 
-/* Книги на полке: слова фразы; их «ключи» сравнивают с запросом слова «перевод» */
-const LIB_BOOKS = [0, 1, 2, 3, 4, 6].map((ti, k) => ({ t: AT[ti], w: AT_W[AT_Q][ti], x: 62 + k * 104, h: [178, 150, 196, 158, 186, 142][k], hue: ['#C9B38A', '#A7B4C6', '#B88F6A', '#8FA58C', '#7D8FA8', '#D9C9A3'][k] }));
-const LIB_SHEETS = LIB_BOOKS.flatMap((b, k) => Array.from({ length: Math.round(b.w * 12) }, (_, n) => ({ k, n, x: b.x })));
+/* Библиотека: Q — запрос слова «перевод», K — метки на корешках, V — то, что внутри книги */
+const LIB_BOOKS = [0, 1, 2, 3, 4, 6].map((ti, k) => ({
+  t: AT[ti], w: AT_W[AT_Q][ti], cx: 286 + k * 72, h: [176, 148, 196, 156, 186, 140][k],
+  hue: ['#C9B38A', '#A7B4C6', '#B88F6A', '#8FA58C', '#7D8FA8', '#D9C9A3'][k],
+}));
+const LIB_BOARD = 330;
+const LIB_QX = 204, LIB_QY = 170;
+/* три самые подходящие книги: что из них берёт слово «перевод» */
+const LIB_OPEN = [
+  { k: 2, v: 'плата за операцию — речь о деньгах' },
+  { k: 4, v: 'операцию отменили — это действие банка' },
+  { k: 0, v: 'что-то должно вернуться клиенту' },
+];
+const LIB_MIX = [['комиссию', 46, '#2E7D4F'], ['отменённый', 27, '#4F9A6C'], ['Вернут', 14, '#8CC2A1'], ['остальные', 13, '#C9D2DE']];
 
 function AttnLibrary({ s }) {
-  /* s: 3 — зал и запрос, 4 — ключи, 5 — значения, 6 — вывод */
+  /* s: 3 — запрос, 4 — ключи, 5 — значения, 6 — вывод */
+  const opened = new Set(s >= 5 ? LIB_OPEN.map(o => o.k) : []);
   return html`<div>
-    <${Head} num="08" title="Шаг 4. Внимание" rail=${4} />
+    <${Head} num="09" title="Шаг 4. Внимание" rail=${4} />
     <div className="scene">
       <div className="def"><${GenR} segs=${[
         ['Внутри — три матрицы: '],
@@ -2432,32 +2794,47 @@ function AttnLibrary({ s }) {
         [' (V). Проще всего это увидеть в библиотеке.'],
       ]} /></div>
       <div className=${cls('lib', s >= 4 && 'k', s >= 5 && 'v')}>
+        <div className="lib-h q on"><b>Q</b><span>запрос<small>что ищу</small></span></div>
+        <div className=${cls('lib-h k', s >= 4 && 'on')}><b>K</b><span>ключи<small>метки на корешках</small></span></div>
+        <div className=${cls('lib-h v', s >= 5 && 'on')}><b>V</b><span>значения<small>что внутри книги</small></span></div>
         <div className="lib-q">
-          <span className="eyebrow">Q · запрос</span>
-          <b>Что значит «перевод» в этой фразе?</b>
-          <small>с этим вопросом слово идёт к полке</small>
+          <span className="eyebrow">слово «перевод» спрашивает</span>
+          <b>Что я значу в этой фразе?</b>
+          <small>с этим запросом оно идёт к полке</small>
         </div>
         <div className="lib-shelf">
-          <i className="lib-scan"></i>
-          ${LIB_BOOKS.map((b, k) => html`<div key=${k} className="lib-book" style=${{ left: b.x + 'px', height: b.h + 'px', '--w': b.w, '--hue': b.hue, transitionDelay: (s >= 4 ? .25 + k * .3 : 0) + 's' }}>
-            <span className="lib-pct" style=${{ transitionDelay: (s >= 4 ? .45 + k * .3 : 0) + 's' }}>${Math.round(b.w * 100)}${' '}%</span>
+          ${LIB_BOOKS.map((b, k) => html`<div key=${k} className=${cls('lib-book', opened.has(k) && 'out')} style=${{ left: b.cx + 'px', height: b.h + 'px', '--w': b.w, '--hue': b.hue, '--kd': (.3 + k * .16) + 's' }}>
+            <span className="lib-pct">${Math.round(b.w * 100)}${' '}%</span>
+            <em className="lib-key">K</em>
             <b>${b.t}</b>
-            <em>K</em>
           </div>`)}
-          ${[14, 118, 222, 326, 430, 534, 624].map((x, i) => html`<i key=${i} className="lib-thin" style=${{ left: x + 'px', height: (120 + (i * 37) % 60) + 'px' }}></i>`)}
+          ${[250, 322, 394, 466, 538, 610, 682].map((x, i) => html`<i key=${i} className="lib-thin" style=${{ left: (x - 2) + 'px', height: (96 + (i * 37) % 50) + 'px' }}></i>`)}
           <div className="lib-board"></div>
-          <div className="lib-low">${Array.from({ length: 40 }, (_, i) => html`<i key=${i} style=${{ height: (36 + (i * 29) % 36) + 'px', background: ['#DCE2EA', '#E7DFCB', '#D5DDE8', '#DDE7DA'][i % 4] }}></i>`)}</div>
-          <div className="lib-board low"></div>
-          <div className="lib-cap">K · ключи — метки на корешках: насколько книга отвечает запросу</div>
+          <div className="lib-cap">K — метка на корешке: по ней видно, <b>подходит ли книга к запросу</b></div>
         </div>
-        ${LIB_SHEETS.map((sh, i) => html`<i key=${i} className="lib-sheet" style=${{ '--x': (236 + sh.x) + 'px', '--dx': (720 - sh.x) + 'px', '--dy': (70 + (i % 5) * 18) + 'px', '--d': (.2 + sh.k * .22 + sh.n * .13) + 's' }}></i>`)}
-        <div className="lib-note">
-          <span className="eyebrow">V · значение</span>
-          <b>конспект для слова «перевод»</b>
-          ${[['комиссию', 46], ['отменённый', 27], ['Вернут', 14], ['остальные', 13]].map(([t, p], i) => html`<div key=${i} className="lib-mix">
-            <span>${t}</span><i><u style=${{ '--p': p * 2 + '%', transitionDelay: (s >= 5 ? .9 + i * .3 : 0) + 's' }}></u></i><code>${p}${' '}%</code>
-          </div>`)}
-          <small>смесь из нескольких книг — в пропорции важности</small>
+        <svg className="lib-beams" aria-hidden="true">
+          ${s >= 4 ? LIB_BOOKS.map((b, k) => {
+            /* луч приходит сверху — в процент над корешком, не пересекая соседние книги */
+            const ty = LIB_BOARD - b.h - b.w * 30 - 30;
+            return html`<path key=${k} pathLength="1" style=${{ strokeWidth: 1 + b.w * 13, opacity: .3 + b.w * 1.4, animationDelay: (.2 + k * .16) + 's' }}
+              d=${`M ${LIB_QX} ${LIB_QY - 30} C ${LIB_QX + 70} ${LIB_QY - 100}, ${b.cx} ${ty - 62}, ${b.cx} ${ty}`} />`;
+          }) : null}
+        </svg>
+        <div className="lib-vcol">
+          ${LIB_OPEN.map((o, i) => {
+            const b = LIB_BOOKS[o.k];
+            return html`<div key=${i} className="lib-open" style=${{ '--i': i, '--fx': (b.cx - 938) + 'px', '--fy': (LIB_BOARD - b.h / 2 - (97 + i * 76)) + 'px', '--hue': b.hue }}>
+              <div className="pg l"><em>книга</em><b>${b.t}</b></div>
+              <div className="pg r">${o.v}</div>
+              <code>${Math.round(b.w * 100)}${' '}%</code>
+            </div>`;
+          })}
+          <div className="lib-note">
+            <span className="eyebrow">конспект для слова «перевод»</span>
+            <div className="lib-stack">${LIB_MIX.map(([n, p, c], i) => html`<i key=${i} title=${n} style=${{ '--p': p + '%', background: c, transitionDelay: (1.3 + i * .25) + 's' }}></i>`)}</div>
+            <div className="lib-legend">${LIB_MIX.map(([n, p, c], i) => html`<span key=${i}><i style=${{ background: c }}></i>${n} ${p}${' '}%</span>`)}</div>
+            <b className="lib-res">→ перевод <u>денег</u>, а не текста</b>
+          </div>
         </div>
       </div>
     </div>
@@ -2480,8 +2857,14 @@ const HD = ['Иван', 'Петрович', 'возмущён', ':', 'банк',
 const HD_HEADS = [
   { name: 'грамматика', hint: 'кто что сделал', links: [[4, 6, .85], [6, 7, .75], [5, 6, .5], [1, 2, .55]] },
   { name: 'имена', hint: 'кто есть кто', links: [[0, 1, .95], [1, 4, .35], [0, 4, .25]] },
-  { name: 'тон', hint: 'с каким чувством', links: [[2, 5, .7], [2, 6, .6], [2, 7, .35]] },
+  { name: 'тон', hint: 'с каким чувством', links: [[0, 2, .65], [2, 5, .7], [2, 6, .6], [2, 7, .35]] },
 ];
+/* на какие слова смотрит каждая голова: вес слова внутри головы, от 0 до 1 */
+const HD_LOOK = HD_HEADS.map(h => {
+  const w = HD.map((_, i) => h.links.reduce((a, l) => a + (l[0] === i || l[1] === i ? l[2] : 0), 0));
+  const m = Math.max(...w);
+  return w.map(v => v / m);
+});
 /* итоговый вес слова: сколько внимания оно собрало со всех голов */
 const HD_SCORE = HD.map((_, i) => HD_HEADS.reduce((a, h) => a + h.links.reduce((b, l) => b + (l[0] === i || l[1] === i ? l[2] : 0), 0), 0));
 const HD_MAX = Math.max(...HD_SCORE);
@@ -2489,7 +2872,7 @@ const HD_MAX = Math.max(...HD_SCORE);
 function SlideHeads({ s }) {
   const mode = s === 1 ? 'ex' : s >= 2 ? 'merged' : 'flat';
   return html`<div>
-    <${Head} num="09" title="Много голов" en="multi-head attention" />
+    <${Head} num="10" title="Много голов" en="multi-head attention" />
     <div className="scene">
       <div className=${st(s, 0, 'def')}><${GenR} segs=${[
         ['Работает не один «библиотекарь», а целая команда: каждая '],
@@ -2499,7 +2882,8 @@ function SlideHeads({ s }) {
       <div className=${cls('mh-space', mode, s >= 3 && 'score')}>
         ${HD_HEADS.map((h, i) => html`<div key=${i} className=${'mh-layer h' + i}>
           <${ArcRow} toks=${HD} links=${h.links.map(l => [l[0], l[1], l[2], 'c' + i])} lift=${88} rowCls="mh-row"
-            ts=${k => ({ '--sc': HD_SCORE[k] / HD_MAX })} redraw=${mode} />
+            tc=${k => (HD_LOOK[i][k] > 0 ? 'u' : '')}
+            ts=${k => ({ '--sc': HD_SCORE[k] / HD_MAX, '--uw': HD_LOOK[i][k], '--ud': (.7 + k * .06) + 's' })} redraw=${mode} />
         </div>`)}
         ${HD_HEADS.map((h, i) => html`<div key=${'t' + i} className=${'mh-tag h' + i}>
           <b>голова ${i + 1}</b><span>${h.name}</span><small>${h.hint}</small>
@@ -2544,47 +2928,6 @@ function WeightsMem({ active }) {
   return html`<canvas ref=${ref} className="pp-mem-cv"></canvas>`;
 }
 
-/* Искры над фразой, на которой «загорелось» внимание */
-function Embers({ root, on }) {
-  const ref = useRef(null);
-  useEffect(() => {
-    const cv = ref.current, host = root.current;
-    if (!cv || !host) return;
-    const W = 1140, H = 440;
-    cv.width = W * DPR; cv.height = H * DPR;
-    const ctx = cv.getContext('2d');
-    ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
-    ctx.clearRect(0, 0, W, H);
-    if (!on || rm) return;
-    let raf = 0, last = performance.now();
-    const ps = [];
-    const frame = now => {
-      const dt = Math.min(.05, (now - last) / 1000);
-      last = now;
-      const el = host.querySelector('[data-k="fact"]');
-      if (el) {
-        const b = offBox(host, el);
-        for (let i = 0; i < 2; i++) if (ps.length < 90) ps.push({ x: b.x + Math.random() * b.w, y: b.y + Math.random() * b.h * .5, vx: (Math.random() - .5) * 14, vy: -18 - Math.random() * 34, life: 0, max: .9 + Math.random() * 1.2, r: 1 + Math.random() * 1.8 });
-      }
-      ctx.clearRect(0, 0, W, H);
-      ctx.globalCompositeOperation = 'lighter';
-      for (let i = ps.length - 1; i >= 0; i--) {
-        const p = ps[i];
-        p.life += dt; p.x += p.vx * dt; p.y += p.vy * dt; p.vx += (Math.random() - .5) * 30 * dt;
-        if (p.life > p.max) { ps.splice(i, 1); continue; }
-        const k = 1 - p.life / p.max;
-        ctx.fillStyle = 'rgba(232,150,30,' + (.75 * k) + ')';
-        ctx.beginPath(); ctx.arc(p.x, p.y, p.r * (.6 + k), 0, 6.283); ctx.fill();
-      }
-      ctx.globalCompositeOperation = 'source-over';
-      raf = requestAnimationFrame(frame);
-    };
-    raf = requestAnimationFrame(frame);
-    return () => cancelAnimationFrame(raf);
-  }, [on]);
-  return html`<canvas ref=${ref} className="pp-embers" aria-hidden="true"></canvas>`;
-}
-
 function SlidePrompt({ s }) {
   const root = useRef(null);
   const fonts = useFonts();
@@ -2622,7 +2965,7 @@ function SlidePrompt({ s }) {
   }
   const bad = s >= 1 && s < 3, good = s >= 3;
   return html`<div>
-    <${Head} num="10" title="Сила промпта" en="prompt · контекст решает" />
+    <${Head} num="11" title="Сила промпта" en="prompt · контекст решает" />
     <div className="scene">
       <div className=${st(s, 0, 'def')}><${GenR} segs=${[
         ['Механизм внимания ищет ответ '],
@@ -2658,7 +3001,6 @@ function SlidePrompt({ s }) {
           <small>числа условные</small>
         </div>
         <svg className="pp-beams" aria-hidden="true">${beams}</svg>
-        <${Embers} root=${root} on=${good} />
         <div className=${cls('pp-rich', s >= 4 && 'on')}><span>подробно</span><span>структурно</span><span>с контекстом</span></div>
       </div>
     </div>
@@ -2695,11 +3037,12 @@ function SlideFinal({ s }) {
 
 /* ============ 13 · что дальше: документы не помещаются — нужна библиотека ============ */
 
-const HALL = { W: 1280, H: 720, VX: 640, VY: 338, WX: 1.15, TOP: -.86, FLOOR: .62, L: .8, ZN: .7, BAYS: 36 };
+const HALL = { W: 1280, H: 720, VX: 640, VY: 338, WX: 1.15, SD: .27, TOP: -.86, FLOOR: .62, L: .8, ZN: .7, BAYS: 36 };
 const HALL_PAL = [[201, 179, 138], [167, 180, 198], [143, 165, 140], [217, 201, 163], [184, 143, 106], [125, 143, 168], [227, 215, 189], [214, 190, 122]];
 const HALL_FOG = [244, 246, 249];
+const HALL_GOLD = [232, 162, 30];
 
-/* Бесконечный зал: стеллажи уходят к точке схода, камера отъезжает назад */
+/* Бесконечный зал: камера отъезжает назад и останавливается; книги — объёмные коробки */
 function Hall({ s }) {
   const ref = useRef(null);
   const draw = useRef(null);
@@ -2708,12 +3051,97 @@ function Hall({ s }) {
   useEffect(() => {
     const cv = ref.current;
     if (!cv) return;
-    const { W, H, VX, VY, WX, TOP, FLOOR, L, ZN, BAYS } = HALL;
+    const { W, H, VX, VY, WX, SD, TOP, FLOOR, L, ZN, BAYS } = HALL;
     cv.width = W * DPR; cv.height = H * DPR;
     const ctx = cv.getContext('2d');
-    const o = { cam: 400, t: -1, F: 1700, beam: 0, target: null };
-    const fogc = (c, z) => { const t = Math.pow(clamp((z - 1.2) / 20, 0, 1), .75); return 'rgb(' + c.map((v, i) => Math.round(v + (HALL_FOG[i] - v) * t)).join(',') + ')'; };
+    /* готовый кадр неподвижного зала: когда камера встала, его не перерисовываем */
+    const still = document.createElement('canvas');
+    still.width = cv.width; still.height = cv.height;
+    const o = { cam: 400, t: -1, F: 1700, beam: 0, target: null, tgt: null, cached: false };
+    const fogc = (c, z, k = 1) => { const t = Math.pow(clamp((z - 1.2) / 20, 0, 1), .75); return 'rgb(' + c.map((v, i) => Math.round(Math.min(255, v * k) + (HALL_FOG[i] - Math.min(255, v * k)) * t)).join(',') + ')'; };
     const quad = (pts, fill) => { ctx.fillStyle = fill; ctx.beginPath(); ctx.moveTo(pts[0][0], pts[0][1]); for (let i = 1; i < pts.length; i++) ctx.lineTo(pts[i][0], pts[i][1]); ctx.closePath(); ctx.fill(); };
+    const scene = sv => {
+      const F = o.F, P = (x, y, z) => [VX + F * x / z, VY + F * y / z];
+      ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+      ctx.fillStyle = 'rgb(' + HALL_FOG.join(',') + ')';
+      ctx.fillRect(0, 0, W, H);
+      const base = Math.floor(o.cam / L);
+      if (sv >= 3 && o.target === null && o.t > 2.8) o.target = base + 4;
+      let tgt = null;
+      for (let k = BAYS; k >= 0; k--) {
+        const n = base + k, z1 = n * L - o.cam, z2 = z1 + L;
+        if (z2 <= ZN) continue;
+        const za = Math.max(z1, ZN), far = za > 14, fine = za < 7;
+        /* пол и потолок пролёта */
+        quad([P(-WX, FLOOR, za), P(WX, FLOOR, za), P(WX, FLOOR, z2), P(-WX, FLOOR, z2)], fogc(n % 2 ? [226, 231, 238] : [214, 221, 231], za));
+        quad([P(-.36, FLOOR, za), P(.36, FLOOR, za), P(.36, FLOOR, z2), P(-.36, FLOOR, z2)], fogc(n % 2 ? [199, 211, 230] : [188, 202, 224], za));
+        quad([P(-WX, TOP, za), P(WX, TOP, za), P(WX, TOP, z2), P(-WX, TOP, z2)], fogc([233, 237, 243], za));
+        for (const side of [-1, 1]) {
+          const xb = side * WX, xf = side * (WX - SD);
+          /* задняя стенка шкафа — тёмная, в щелях между книгами */
+          quad([P(xb, TOP, za), P(xb, TOP, z2), P(xb, FLOOR, z2), P(xb, FLOOR, za)], fogc([150, 124, 86], za));
+          for (let j = 0; j <= 5; j++) {
+            const y = -.62 + j * .236;
+            /* верх полки виден ниже уровня глаз, низ — выше */
+            if (y > 0) quad([P(xf, y, za), P(xb, y, za), P(xb, y, z2), P(xf, y, z2)], fogc([196, 164, 108], za));
+            else quad([P(xf, y + .03, za), P(xb, y + .03, za), P(xb, y + .03, z2), P(xf, y + .03, z2)], fogc([120, 94, 56], za));
+          }
+          for (let sh = 0; sh < 5; sh++) {
+            const yb = -.62 + (sh + 1) * .236;
+            if (far) {
+              const xs = side * (WX - .2);
+              quad([P(xs, yb - .19, za), P(xs, yb - .19, z2), P(xs, yb, z2), P(xs, yb, za)], fogc(HALL_PAL[(n + sh * 3 + (side > 0 ? 1 : 0)) & 7], za));
+              continue;
+            }
+            for (let b = 6; b >= 0; b--) {
+              const r = h2(n * 31 + sh * 7 + (side > 0 ? 3 : 0), b * 13 + 5), r2 = h2(n * 17 + b, sh * 5 + (side > 0 ? 9 : 2));
+              const zb1 = z1 + L * (b + .06) / 7, zb2 = z1 + L * (b + .95) / 7;
+              if (zb2 <= ZN) continue;
+              const zc = Math.max(zb1, ZN), yt = yb - .236 * (.56 + r * .36);
+              const xs = side * (WX - .16 - r2 * .07);
+              const isT = o.target === n && side === 1 && sh === 3 && b === 3;
+              const col = isT ? HALL_GOLD : HALL_PAL[(r * 8) | 0];
+              /* корешок */
+              const sp = [P(xs, yt, zc), P(xs, yt, zb2), P(xs, yb, zb2), P(xs, yb, zc)];
+              quad(sp, fogc(col, zc));
+              if (fine) {
+                const hh = yb - yt;
+                for (const yy of [yt + hh * .1, yb - hh * .16]) quad([P(xs, yy, zc), P(xs, yy, zb2), P(xs, yy + hh * .035, zb2), P(xs, yy + hh * .035, zc)], fogc(col, zc, .7));
+                if (r2 > .45) quad([P(xs, yt + hh * .28, zc + (zb2 - zc) * .2), P(xs, yt + hh * .28, zb2 - (zb2 - zc) * .2), P(xs, yt + hh * .44, zb2 - (zb2 - zc) * .2), P(xs, yt + hh * .44, zc + (zb2 - zc) * .2)], fogc([246, 240, 226], zc));
+              }
+              /* верхний обрез — у книг ниже уровня глаз */
+              if (yt > 0) quad([P(xs, yt, zc), P(xb, yt, zc), P(xb, yt, zb2), P(xs, yt, zb2)], fogc([236, 226, 200], zc, 1));
+              /* ближняя обложка */
+              if (zb1 >= ZN) quad([P(xs, yt, zb1), P(xb, yt, zb1), P(xb, yb, zb1), P(xs, yb, zb1)], fogc(col, zb1, .66));
+              if (isT) tgt = [(sp[0][0] + sp[2][0]) / 2, (sp[0][1] + sp[2][1]) / 2];
+            }
+          }
+          /* передние кромки полок */
+          for (let j = 0; j <= 5; j++) {
+            const y = -.62 + j * .236;
+            quad([P(xf, y, za), P(xf, y, z2), P(xf, y + .03, z2), P(xf, y + .03, za)], fogc([168, 134, 78], za));
+          }
+          /* боковина секции шкафа */
+          if (z1 > ZN) {
+            const xi = side * (WX - SD - .012);
+            quad([P(xi, TOP, z1), P(xb, TOP, z1), P(xb, FLOOR, z1), P(xi, FLOOR, z1)], fogc([142, 112, 66], z1));
+            quad([P(xi, TOP, z1), P(xi, TOP, z1 + .035), P(xi, FLOOR, z1 + .035), P(xi, FLOOR, z1)], fogc([186, 150, 92], z1));
+          }
+        }
+        /* лампа под потолком */
+        if (n % 2 === 0 && z1 > ZN) {
+          const c = P(0, TOP + .05, z1), rr = clamp(90 / z1, 2, 120);
+          const g = ctx.createRadialGradient(c[0], c[1], 0, c[0], c[1], rr);
+          g.addColorStop(0, 'rgba(255,244,214,.9)'); g.addColorStop(1, 'rgba(255,244,214,0)');
+          ctx.fillStyle = g; ctx.beginPath(); ctx.arc(c[0], c[1], rr, 0, 6.283); ctx.fill();
+        }
+      }
+      /* свет в конце зала */
+      const g = ctx.createRadialGradient(VX, VY, 0, VX, VY, 150);
+      g.addColorStop(0, 'rgba(255,255,255,.95)'); g.addColorStop(1, 'rgba(244,246,249,0)');
+      ctx.fillStyle = g; ctx.fillRect(VX - 160, VY - 160, 320, 320);
+      return tgt;
+    };
     let raf = 0, last = performance.now();
     const frame = now => {
       const dt = Math.min(.05, (now - last) / 1000);
@@ -2723,84 +3151,36 @@ function Hall({ s }) {
         if (o.t < 0) o.t = 0;
         o.t += dt;
         if (rm) { o.t = 9; o.F = 560; } else {
-          o.cam -= (0.1 + 10 * Math.exp(-o.t / .95)) * dt;
+          /* камера отъезжает и плавно встаёт — без остаточного дрейфа */
+          o.cam -= 10 * Math.exp(-o.t / .8) * dt;
           o.F = 560 + 1140 * Math.exp(-o.t / .8);
         }
-      } else { o.t = -1; o.cam = 400; o.F = 1700; o.target = null; }
+      } else { o.t = -1; o.cam = 400; o.F = 1700; o.target = null; o.cached = false; }
       o.beam = sv >= 3 && o.target !== null ? Math.min(1, o.beam + dt / 1.2) : 0;
-      const F = o.F, P = (x, y, z) => [VX + F * x / z, VY + F * y / z];
       ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
-      ctx.fillStyle = 'rgb(' + HALL_FOG.join(',') + ')';
-      ctx.fillRect(0, 0, W, H);
-      if (on) {
-        const base = Math.floor(o.cam / L);
-        if (sv >= 3 && o.target === null && o.t > 2.8) o.target = base + 4;
-        let tgt = null;
-        for (let k = BAYS; k >= 0; k--) {
-          const n = base + k, z1 = n * L - o.cam, z2 = z1 + L;
-          if (z2 <= ZN) continue;
-          const za = Math.max(z1, ZN), far = za > 15;
-          /* пол и потолок пролёта */
-          quad([P(-WX, FLOOR, za), P(WX, FLOOR, za), P(WX, FLOOR, z2), P(-WX, FLOOR, z2)], fogc(n % 2 ? [226, 231, 238] : [214, 221, 231], za));
-          quad([P(-.36, FLOOR, za), P(.36, FLOOR, za), P(.36, FLOOR, z2), P(-.36, FLOOR, z2)], fogc(n % 2 ? [199, 211, 230] : [188, 202, 224], za));
-          quad([P(-WX, TOP, za), P(WX, TOP, za), P(WX, TOP, z2), P(-WX, TOP, z2)], fogc([233, 237, 243], za));
-          for (const side of [-1, 1]) {
-            const x = side * WX;
-            quad([P(x, TOP, za), P(x, TOP, z2), P(x, FLOOR, z2), P(x, FLOOR, za)], fogc([236, 228, 210], za));
-            for (let sh = 0; sh < 5; sh++) {
-              const yb = -.62 + (sh + 1) * .236, yt0 = yb - .236;
-              if (far) {
-                quad([P(x, yb - .19, za), P(x, yb - .19, z2), P(x, yb, z2), P(x, yb, za)], fogc(HALL_PAL[(n + sh * 3 + (side > 0 ? 1 : 0)) & 7], za));
-              } else {
-                for (let b = 0; b < 7; b++) {
-                  const r = h2(n * 31 + sh * 7 + (side > 0 ? 3 : 0), b * 13 + 5), zb1 = z1 + L * (b + .08) / 7, zb2 = z1 + L * (b + .94) / 7;
-                  if (zb2 <= ZN) continue;
-                  const zc = Math.max(zb1, ZN), yt = yb - .236 * (.56 + r * .36);
-                  const isT = o.target === n && side === 1 && sh === 3 && b === 3;
-                  const col = isT ? '#E8A21E' : fogc(HALL_PAL[(r * 8) | 0], zc);
-                  const pts = [P(x, yt, zc), P(x, yt, zb2), P(x, yb, zb2), P(x, yb, zc)];
-                  quad(pts, col);
-                  if (isT) tgt = [(pts[0][0] + pts[2][0]) / 2, (pts[0][1] + pts[2][1]) / 2];
-                }
-              }
-              /* полка */
-              const a1 = P(x, yb, za), a2 = P(x, yb, z2);
-              ctx.strokeStyle = fogc([148, 117, 63], za); ctx.lineWidth = clamp(3.4 / za, .4, 4);
-              ctx.beginPath(); ctx.moveTo(a1[0], a1[1]); ctx.lineTo(a2[0], a2[1]); ctx.stroke();
-              if (sh === 0) { const t1 = P(x, yt0, za), t2 = P(x, yt0, z2); ctx.beginPath(); ctx.moveTo(t1[0], t1[1]); ctx.lineTo(t2[0], t2[1]); ctx.stroke(); }
-            }
-            /* стойка стеллажа */
-            if (z1 > ZN) {
-              const p1 = P(x, TOP, z1), p2 = P(x, FLOOR, z1);
-              ctx.strokeStyle = fogc([120, 96, 56], z1); ctx.lineWidth = clamp(5 / z1, .5, 7);
-              ctx.beginPath(); ctx.moveTo(p1[0], p1[1]); ctx.lineTo(p2[0], p2[1]); ctx.stroke();
-            }
-          }
-          /* лампа под потолком */
-          if (n % 2 === 0 && z1 > ZN) {
-            const c = P(0, TOP + .05, z1), rr = clamp(90 / z1, 2, 120);
-            const g = ctx.createRadialGradient(c[0], c[1], 0, c[0], c[1], rr);
-            g.addColorStop(0, 'rgba(255,244,214,.9)'); g.addColorStop(1, 'rgba(255,244,214,0)');
-            ctx.fillStyle = g; ctx.beginPath(); ctx.arc(c[0], c[1], rr, 0, 6.283); ctx.fill();
-          }
-        }
-        /* свет в конце зала */
-        const g = ctx.createRadialGradient(VX, VY, 0, VX, VY, 150);
-        g.addColorStop(0, 'rgba(255,255,255,.95)'); g.addColorStop(1, 'rgba(244,246,249,0)');
-        ctx.fillStyle = g; ctx.fillRect(VX - 160, VY - 160, 320, 320);
-        /* луч вопроса находит одну книгу */
-        if (tgt && o.beam > 0) {
-          const sx = 640, sy = 612, q = ease(o.beam), ex = lerp(sx, tgt[0], q), ey = lerp(sy, tgt[1], q);
-          const gr = ctx.createLinearGradient(sx, sy, ex, ey);
-          gr.addColorStop(0, 'rgba(232,162,30,.15)'); gr.addColorStop(1, 'rgba(232,162,30,.95)');
-          ctx.strokeStyle = gr; ctx.lineWidth = 3; ctx.lineCap = 'round';
-          ctx.beginPath(); ctx.moveTo(sx, sy); ctx.lineTo(ex, ey); ctx.stroke();
-          if (o.beam >= 1) {
-            const pr = 26 + 8 * Math.sin(now / 320);
-            const hg = ctx.createRadialGradient(tgt[0], tgt[1], 0, tgt[0], tgt[1], pr * 2);
-            hg.addColorStop(0, 'rgba(255,196,80,.85)'); hg.addColorStop(1, 'rgba(255,196,80,0)');
-            ctx.fillStyle = hg; ctx.beginPath(); ctx.arc(tgt[0], tgt[1], pr * 2, 0, 6.283); ctx.fill();
-          }
+      if (!on) { ctx.fillStyle = 'rgb(' + HALL_FOG.join(',') + ')'; ctx.fillRect(0, 0, W, H); }
+      else if (o.cached && (o.target === null) === (sv < 3)) {
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+        ctx.drawImage(still, 0, 0);
+        ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+      } else {
+        o.tgt = scene(sv);
+        const stopped = o.t > 5.5 && (sv < 3 || o.target !== null);
+        if (stopped) { const sc = still.getContext('2d'); sc.clearRect(0, 0, still.width, still.height); sc.drawImage(cv, 0, 0); o.cached = true; }
+      }
+      const tgt = o.tgt;
+      /* луч вопроса находит одну книгу */
+      if (on && tgt && o.beam > 0) {
+        const sx = 640, sy = 612, q = ease(o.beam), ex = lerp(sx, tgt[0], q), ey = lerp(sy, tgt[1], q);
+        const gr = ctx.createLinearGradient(sx, sy, ex, ey);
+        gr.addColorStop(0, 'rgba(232,162,30,.15)'); gr.addColorStop(1, 'rgba(232,162,30,.95)');
+        ctx.strokeStyle = gr; ctx.lineWidth = 3; ctx.lineCap = 'round';
+        ctx.beginPath(); ctx.moveTo(sx, sy); ctx.lineTo(ex, ey); ctx.stroke();
+        if (o.beam >= 1) {
+          const pr = 26 + 8 * Math.sin(now / 320);
+          const hg = ctx.createRadialGradient(tgt[0], tgt[1], 0, tgt[0], tgt[1], pr * 2);
+          hg.addColorStop(0, 'rgba(255,196,80,.85)'); hg.addColorStop(1, 'rgba(255,196,80,0)');
+          ctx.fillStyle = hg; ctx.beginPath(); ctx.arc(tgt[0], tgt[1], pr * 2, 0, 6.283); ctx.fill();
         }
       }
       if (!rm) raf = requestAnimationFrame(frame);
@@ -2822,7 +3202,7 @@ const lbFmt = v => (v < 1.5 ? '1 документ' : Math.round(Math.pow(10, v /
 function SlideLibrary({ s }) {
   return html`<div className=${'lb s' + s}>
     <${Hall} s=${s} />
-    <${Head} num="12" title="А если документов тысячи?" en="что дальше" />
+    <${Head} num="13" title="А если документов тысячи?" en="что дальше" />
     <div className="scene">
       <div className=${cls('lb-def', 'def', s >= 2 && 'off')}><${GenR} segs=${[
         ['Как заставить модель использовать документы, если они '],
@@ -2893,12 +3273,13 @@ function NeuralField() {
     }));
     const pulses = [];
     const t0 = performance.now();
-    let raf;
+    let raf, last = t0;
     const draw = (t) => {
       const e = Math.min(1, (t - t0) / 1800);
+      const f = Math.min(3, Math.max(0, (t - last) / (1000 / 30))); last = t;
       ctx.clearRect(0, 0, W, H);
       for (const p of ps) {
-        p.x += p.vx; p.y += p.vy;
+        p.x += p.vx * f; p.y += p.vy * f;
         if (p.x < -20) p.x = W + 20; else if (p.x > W + 20) p.x = -20;
         if (p.y < -20) p.y = H + 20; else if (p.y > H + 20) p.y = -20;
       }
@@ -2910,14 +3291,14 @@ function NeuralField() {
         ctx.strokeStyle = a.hot || b.hot ? 'rgba(255,120,40,' + al + ')' : 'rgba(130,171,226,' + al * .75 + ')';
         ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
       }
-      if (!rm && pulses.length < 14 && Math.random() < .12) {
+      if (!rm && pulses.length < 3 && Math.random() < 1 - Math.pow(.965, f)) {
         const i = (Math.random() * ps.length) | 0;
         const j = ps.findIndex((q, k) => k !== i && Math.hypot(q.x - ps[i].x, q.y - ps[i].y) < LINK);
         if (j >= 0) pulses.push({ i, j, k: 0, v: .012 + Math.random() * .018 });
       }
       for (let n = pulses.length - 1; n >= 0; n--) {
         const u = pulses[n], a = ps[u.i], b = ps[u.j];
-        u.k += u.v;
+        u.k += u.v * f;
         if (u.k >= 1) { pulses.splice(n, 1); continue; }
         const x = a.x + (b.x - a.x) * u.k, y = a.y + (b.y - a.y) * u.k;
         const g = ctx.createRadialGradient(x, y, 0, x, y, 9);
@@ -2978,6 +3359,7 @@ const SLIDES = [
   { title: 'Следующее слово', steps: 4, comp: SlideNext },
   { title: 'Данные', steps: 5, comp: SlideMap },
   { title: 'Трансформер', steps: 4, comp: SlideTransformer },
+  { title: 'Схема трансформера', steps: 3, comp: SlideArch },
   { title: 'Токенизация', steps: 5, comp: SlideTokens },
   { title: 'Эмбеддинги', steps: 6, comp: SlideEmbed },
   { title: 'Порядок слов', steps: 6, comp: SlideOrder },
