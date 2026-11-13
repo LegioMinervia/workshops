@@ -3273,12 +3273,13 @@ function NeuralField() {
     }));
     const pulses = [];
     const t0 = performance.now();
-    let raf;
+    let raf, last = t0;
     const draw = (t) => {
       const e = Math.min(1, (t - t0) / 1800);
+      const f = Math.min(3, Math.max(0, (t - last) / (1000 / 30))); last = t;
       ctx.clearRect(0, 0, W, H);
       for (const p of ps) {
-        p.x += p.vx; p.y += p.vy;
+        p.x += p.vx * f; p.y += p.vy * f;
         if (p.x < -20) p.x = W + 20; else if (p.x > W + 20) p.x = -20;
         if (p.y < -20) p.y = H + 20; else if (p.y > H + 20) p.y = -20;
       }
@@ -3290,14 +3291,14 @@ function NeuralField() {
         ctx.strokeStyle = a.hot || b.hot ? 'rgba(255,120,40,' + al + ')' : 'rgba(130,171,226,' + al * .75 + ')';
         ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
       }
-      if (!rm && pulses.length < 14 && Math.random() < .12) {
+      if (!rm && pulses.length < 14 && Math.random() < 1 - Math.pow(.88, f)) {
         const i = (Math.random() * ps.length) | 0;
         const j = ps.findIndex((q, k) => k !== i && Math.hypot(q.x - ps[i].x, q.y - ps[i].y) < LINK);
         if (j >= 0) pulses.push({ i, j, k: 0, v: .012 + Math.random() * .018 });
       }
       for (let n = pulses.length - 1; n >= 0; n--) {
         const u = pulses[n], a = ps[u.i], b = ps[u.j];
-        u.k += u.v;
+        u.k += u.v * f;
         if (u.k >= 1) { pulses.splice(n, 1); continue; }
         const x = a.x + (b.x - a.x) * u.k, y = a.y + (b.y - a.y) * u.k;
         const g = ctx.createRadialGradient(x, y, 0, x, y, 9);
