@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>06 · Мост из слов</title>
+  <link rel="stylesheet" href="fonts.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body data-scene="bridge">
+  <main id="stage" class="stage bridge" data-step="0">
+    <canvas id="scene" width="1600" height="900" aria-label="Мост из слов сначала держится на опорах с фактами. Продолжение моста строится над пустотой."></canvas>
+    <div class="grain" aria-hidden="true"></div>
+    <header><a href="index.html" class="identity">Этюды о галлюцинациях <span>06 / 06</span></a><a class="switch" href="03-no-foundation.html">Смотреть постамент <span>↗</span></a></header>
+    <section class="copy opening" aria-hidden="false">
+      <div class="eyebrow">СЛОВО ЗА СЛОВОМ</div>
+      <h1>Сначала<br>есть <em>опора.</em></h1>
+      <p>Ответ выстраивается над фактами.</p>
+    </section>
+    <section class="copy reveal" aria-hidden="true">
+      <div class="eyebrow">НО ГЕНЕРАЦИЯ НЕ ОСТАНОВИЛАСЬ</div>
+      <h2>Текст продолжается.<br><em>Опоры больше нет.</em></h2>
+      <p>Следующее слово может появиться<br>и без фактического основания.</p>
+    </section>
+    <section class="copy closing" aria-hidden="true">
+      <div class="eyebrow">ПРАВДОПОДОБНО ≠ ДОСТОВЕРНО</div>
+      <h2>Почему модель<br><em>выдумывает</em></h2>
+      <p>Как получается убедительный ответ,<br>когда под ним уже нет фактов.</p>
+    </section>
+    <div id="scene-note" class="scene-note" aria-hidden="true"><i></i><span>Здесь закончилась опора на факты.</span></div>
+    <div class="chapter" aria-hidden="true"><span id="chapter-no">01</span><span class="chapter-line"></span><span id="chapter-label">Опора</span></div>
+    <nav aria-label="Управление прототипом"><button id="restart" aria-label="Сначала">↺</button><div id="steps" class="steps"></div><button id="previous" aria-label="Назад">←</button><button id="next" class="next" aria-label="Следующий шаг">Дальше <span>→</span></button><button id="fullscreen" aria-label="Полный экран">⛶</button></nav>
+    <div class="keys">← → шаг · R сначала · F полный экран</div>
+    <div id="status" class="sr-only" aria-live="polite"></div>
+  </main>
+  <script src="scenes.js"></script>
+</body>
+</html>
