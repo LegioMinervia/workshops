@@ -1,0 +1,13 @@
+{
+  "title": "Westeros cartographic geometry adapted for the presentation",
+  "source": "https://github.com/mapbox/GOT-Inspired-Map/tree/master/GoTRelease",
+  "authors": [
+    "cadaei",
+    "theMountainGoat",
+    "Tear"
+  ],
+  "underlying_world_copyright": "George R. R. Martin",
+  "license": "CC BY-NC-SA 3.0",
+  "license_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+  "adaptation": "Cropped northern extent, equal-scale Mercator projection, Russian labels, original engraved relief symbols, light palette and presentation camera animation. Geometry and adapted map graphic remain CC BY-NC-SA 3.0."
+}
